@@ -1,0 +1,61 @@
+---
+/**
+ * Matters more than usual here: this is a relaunch on a live domain, so old links
+ * that the redirect map does not cover land on this page. It therefore offers real
+ * routes onward rather than an apology.
+ */
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { nav, primaryCta } from '../data/site';
+---
+
+<Base
+  title="Seite nicht gefunden | Breathing for Heroes"
+  description="Diese Seite gibt es nicht mehr. Hier geht es zu den Sessions, zum Ablauf einer Breathwork-Session und zum Kontakt."
+>
+  <section class="band">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono">Fehler 404</p>
+        <h1>Diese Seite gibt es nicht mehr</h1>
+        <p class="lead">
+          Die Website wurde neu gebaut, dabei haben sich ein paar Adressen geändert. Hier kommst du
+          weiter:
+        </p>
+
+        <ul class="routes">
+          {
+            nav.map((item) => (
+              <li>
+                <a class="link-arrow" href={item.href}>
+                  {item.label}
+                  <Icon name="ArrowRight" size={17} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <a class="btn btn--primary" href={primaryCta.href}>{primaryCta.label}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .mono {
+    margin-bottom: var(--space-md);
+  }
+
+  .lead {
+    margin-top: var(--space-md);
+  }
+
+  .routes {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-lg) 0 var(--space-xl);
+    display: grid;
+    gap: var(--space-2xs);
+  }
+</style>

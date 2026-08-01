@@ -64,16 +64,19 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-variation-settings: 'opsz' 40;
   text-wrap: balance;
   color: var(--ink);
 }
 
+/* opsz 72, not 144. At the top of the axis Fraunces turns delicate and high-contrast
+   — handsome, but it reads as fashion editorial. 72 keeps the weight that makes the
+   headline feel grounded, which is the register the copy is written in. */
 h1 {
   font-size: var(--step-h1);
   line-height: var(--leading-tight);
   letter-spacing: -0.021em;
-  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
+  font-variation-settings: 'opsz' 72;
 }
 
 h2 {

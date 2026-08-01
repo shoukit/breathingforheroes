@@ -17,25 +17,51 @@ const topics = [
   'Ich weiß es noch nicht',
 ];
 
-const mailSubject = encodeURIComponent('Terminanfrage über die Website');
+const mailSubject = encodeURIComponent('Terminanfrage');
+
+/**
+ * A blank mail client is its own kind of friction — the reader has to work out what
+ * Tom needs to know. Pre-filling turns it into filling in blanks, and it costs
+ * nothing to run because it is a plain mailto.
+ */
+const mailBody = encodeURIComponent(
+  [
+    'Hallo Tom,',
+    '',
+    'ich würde gern einen Termin ausmachen.',
+    '',
+    'Interesse an: (Einzelsession / Gruppensession / Eisbaden / weiß ich noch nicht)',
+    'Lieber: (vor Ort in Bonn / online über Zoom)',
+    'Worum es mir geht:',
+    '',
+    'Meine Fragen:',
+    '',
+    'Viele Grüße',
+  ].join('\n')
+);
+
+const mailHref = `mailto:${contact.email}?subject=${mailSubject}&body=${mailBody}`;
+
+/** Process transparency on the page where hesitation actually costs the enquiry. */
+const next = [
+  'Du schreibst mir — ein oder zwei Sätze reichen.',
+  'Ich melde mich zurück, und wir klären das Wesentliche: was du suchst, ob etwas gegen die Methode spricht, Einzel oder Gruppe.',
+  'Wir machen einen Termin aus. Bezahlt wird nach der Session, nicht vorher.',
+];
 ---
 
 <Base title={title} description={description}>
-  <section class="band band--tight page-hero">
+  <section class="band band--tight">
     <div class="shell">
       <div class="lane">
         <p class="mono" data-reveal>Kontakt</p>
         <h1 data-reveal>Termin anfragen</h1>
-        <p class="lead" data-reveal>
+        <p class="lead contact-lead" data-reveal>
           Ein oder zwei Sätze reichen. Erzähl kurz, worum es dir geht — den Rest klären wir
           miteinander.
         </p>
       </div>
-    </div>
-  </section>
 
-  <section class="band band--tight">
-    <div class="shell">
       <div class="lane contact-grid">
         <div data-reveal>
           {
@@ -100,19 +126,13 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
               </form>
             ) : (
               <div class="direct">
-                <h2>So erreichst du mich</h2>
-                <p>
-                  Schreib mir eine Mail oder ruf an. Beides landet direkt bei mir — du brauchst kein
-                  Formular auszufüllen.
-                </p>
-
                 <ul class="channels">
                   <li>
-                    <a class="channel" href={`mailto:${contact.email}?subject=${mailSubject}`}>
+                    <a class="channel channel--primary" href={mailHref}>
                       <Icon name="Mail" size={22} />
                       <span>
-                        <strong>{contact.email}</strong>
-                        <span class="channel__hint">Mail schreiben</span>
+                        <strong>Mail schreiben</strong>
+                        <span class="channel__hint">{contact.email}</span>
                       </span>
                     </a>
                   </li>
@@ -120,17 +140,22 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
                     <a class="channel" href={`tel:${contact.phoneHref}`}>
                       <Icon name="Phone" size={22} />
                       <span>
-                        <strong>{contact.phone}</strong>
-                        <span class="channel__hint">Anrufen</span>
+                        <strong>Anrufen</strong>
+                        <span class="channel__hint">{contact.phone}</span>
                       </span>
                     </a>
                   </li>
                 </ul>
 
                 <p class="direct__note">
-                  Wenn du magst, schreib gleich dazu, ob dich eine Einzelsession, eine Gruppensession
-                  oder das Eisbaden interessiert — und ob dir vor Ort oder online lieber ist.
+                  Die Mail ist schon vorbereitet — du musst sie nur noch ausfüllen und abschicken.
+                  Unverbindlich, und ich antworte selbst.
                 </p>
+
+                <h2 class="next__head mono">Was danach passiert</h2>
+                <ol class="next">
+                  {next.map((item) => <li>{item}</li>)}
+                </ol>
               </div>
             )
           }
@@ -159,13 +184,14 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
 
           <div class="aside__block">
             <h2 class="mono">Wo die Sessions stattfinden</h2>
-            <p class="with-icon">
+            {/* A div, not a p — <p> cannot contain <address>, so the parser closed it early. */}
+            <div class="with-icon">
               <Icon name="MapPin" size={17} />
               <address>
                 {contact.street}<br />
                 {contact.postalCode}&nbsp;{contact.city}
               </address>
-            </p>
+            </div>
             <p class="aside__hint">
               Einzelsessions gehen auch online über Zoom — dann brauchst du nur einen Raum, in dem du
               ungestört liegen kannst.
@@ -186,17 +212,19 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
 </Base>
 
 <style>
-  .page-hero .mono {
+  .mono:first-child {
     margin-bottom: var(--space-md);
   }
 
-  .page-hero .lead {
-    margin-top: var(--space-lg);
+  /* Kept tight so the first real action stays above the fold on a 844px phone. */
+  .contact-lead {
+    margin-top: var(--space-md);
   }
 
   .contact-grid {
     display: grid;
     gap: var(--space-2xl);
+    margin-top: var(--space-xl);
   }
 
   /* ---- Form ---- */
@@ -281,15 +309,10 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
 
   /* ---- Direct contact fallback ---- */
 
-  .direct h2 {
-    font-size: var(--step-h3);
-    margin-bottom: var(--space-sm);
-  }
-
   .channels {
     list-style: none;
     padding: 0;
-    margin: var(--space-lg) 0 0;
+    margin: 0;
     display: grid;
     gap: var(--space-md);
     max-width: 30rem;
@@ -307,7 +330,25 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
     transition: border-color var(--t-base) var(--ease), background-color var(--t-base) var(--ease);
   }
 
-  .channel:hover {
+  /* Writing is the lower-hurdle channel for this audience — a phone call about
+     being exhausted is a real barrier. So mail leads and the phone stays quiet. */
+  .channel--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .channel--primary:hover {
+    background: var(--accent-bright);
+    border-color: var(--accent-bright);
+  }
+
+  .channel--primary :global(svg),
+  .channel--primary .channel__hint {
+    color: color-mix(in srgb, #fff 82%, var(--accent));
+  }
+
+  .channel:not(.channel--primary):hover {
     border-color: var(--accent);
     background: rgb(14 74 84 / 0.04);
   }
@@ -329,16 +370,32 @@ const mailSubject = encodeURIComponent('Terminanfrage über die Website');
   .channel__hint {
     font-family: var(--font-mono);
     font-size: var(--step-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--ink-soft);
   }
 
   .direct__note {
-    margin-top: var(--space-lg);
+    margin-top: var(--space-md);
     color: var(--ink-soft);
     font-size: var(--step-small);
     max-width: 46ch;
+  }
+
+  .next__head {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-sm);
+  }
+
+  .next {
+    margin: 0;
+    padding-left: 1.2em;
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+  }
+
+  .next li {
+    margin-block: var(--space-xs);
   }
 
   /* ---- Aside ---- */

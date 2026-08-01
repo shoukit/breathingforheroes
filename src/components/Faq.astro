@@ -2,6 +2,10 @@
 /**
  * Native <details>. Works without JavaScript, is keyboard operable and searchable
  * in-page by the browser. No custom accordion.
+ *
+ * Deliberately no `name` attribute: that would make the group exclusive, closing
+ * the answer someone just read as they open the next. These are objections — let
+ * them stack.
  */
 import type { FaqItem } from '../data/faq';
 
@@ -25,7 +29,7 @@ const { items, heading = 'Häufige Fragen', eyebrow = 'FAQ' } = Astro.props;
       <div class="faq" data-reveal>
         {
           items.map((item) => (
-            <details name="faq">
+            <details>
               <summary>
                 <span>{item.q}</span>
                 <svg

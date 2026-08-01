@@ -17,7 +17,8 @@ export const person = {
 } as const;
 
 export const contact = {
-  phone: '+49 176 34966935',
+  /** Non-breaking spaces: a phone number split across two lines is unreadable. */
+  phone: '+49 176 34966935',
   /** E.164, for tel: links and structured data */
   phoneHref: '+4917634966935',
   email: 'hello@breathing-for-heroes.de',

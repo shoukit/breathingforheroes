@@ -8,9 +8,15 @@ import { primaryCta } from '../data/site';
 interface Props {
   heading: string;
   body: string;
+  /** Overridable, but every page carries one — the hesitation it answers is real. */
+  note?: string;
 }
 
-const { heading, body } = Astro.props;
+const {
+  heading,
+  body,
+  note = 'Unverbindlich. Es antwortet niemand aus einem Team, sondern Tom selbst.',
+} = Astro.props;
 ---
 
 <section class="band band--sunk">
@@ -19,6 +25,7 @@ const { heading, body } = Astro.props;
       <h2>{heading}</h2>
       <p class="lead">{body}</p>
       <a class="btn btn--primary" href={primaryCta.href}>{primaryCta.label}</a>
+      <p class="cta__note">{note}</p>
     </div>
   </div>
 </section>
@@ -34,5 +41,12 @@ const { heading, body } = Astro.props;
 
   .cta .btn {
     margin-top: var(--space-lg);
+  }
+
+  .cta__note {
+    margin-top: var(--space-md);
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    max-width: 44ch;
   }
 </style>

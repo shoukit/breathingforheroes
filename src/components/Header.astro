@@ -36,13 +36,24 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
 </header>
 
 <style>
+  /* Static on small screens on purpose. Wordmark and nav need two rows there, and
+     a 166px sticky bar costs a fifth of a 844px viewport at every scroll position
+     — more than the persistent CTA is worth, given every section ends with one.
+     Desktop keeps it sticky, where the whole header is a single 69px row. */
   .site-header {
-    position: sticky;
-    top: 0;
+    position: static;
     z-index: 50;
-    background: color-mix(in srgb, var(--paper) 88%, transparent);
-    backdrop-filter: blur(10px);
+    background: var(--paper);
     border-bottom: 1px solid var(--line);
+  }
+
+  @media (min-width: 60rem) {
+    .site-header {
+      position: sticky;
+      top: 0;
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      backdrop-filter: blur(10px);
+    }
   }
 
   .site-header__inner {
@@ -66,7 +77,7 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
   .wordmark__name {
     font-family: var(--font-display);
     font-size: 1rem;
-    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 24;
+    font-variation-settings: 'opsz' 24;
     letter-spacing: -0.01em;
     white-space: nowrap;
   }
