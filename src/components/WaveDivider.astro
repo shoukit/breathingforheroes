@@ -1,0 +1,45 @@
+---
+/**
+ * The soft edge between two bands, shaped like the logo's wave rather than a
+ * straight rule. Purely decorative — it carries no information, so it is hidden
+ * from assistive technology.
+ *
+ * `from` is the colour the wave is filled with: set it to the band that follows,
+ * so the wave reads as that band rising into the one above it.
+ */
+
+interface Props {
+  /** CSS colour of the band below. */
+  fill?: string;
+  flip?: boolean;
+  class?: string;
+}
+
+const { fill = 'var(--paper)', flip = false, class: className } = Astro.props;
+---
+
+<div class:list={['wave', flip && 'wave--flip', className]} aria-hidden="true">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" focusable="false">
+    <path
+      d="M0,52 C180,88 340,20 560,34 C760,47 880,92 1080,74 C1240,60 1340,28 1440,36 L1440,90 L0,90 Z"
+      style={`fill:${fill}`}></path>
+  </svg>
+</div>
+
+<style>
+  .wave {
+    display: block;
+    line-height: 0;
+    margin-bottom: -1px; /* hairline seam between the svg and the next band */
+  }
+
+  .wave svg {
+    display: block;
+    width: 100%;
+    height: clamp(38px, 5vw, 74px);
+  }
+
+  .wave--flip svg {
+    transform: scaleY(-1);
+  }
+</style>

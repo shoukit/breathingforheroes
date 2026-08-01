@@ -193,7 +193,34 @@ main::before {
 }
 
 .band--sunk {
-  background: var(--paper-sunk);
+  background: var(--wash-teal);
+}
+
+/* The second wash, so consecutive tinted bands do not read as one block. */
+.band--sage {
+  background: var(--wash-sage);
+}
+
+/* Section marker: an ornament in a soft disc, sitting above the eyebrow.
+   One per section — as a bare line it was too faint to register as intentional. */
+.section-mark {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: var(--space-md);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--logo-teal) 14%, transparent);
+  color: var(--accent);
+}
+
+.band--sunk .section-mark {
+  background: color-mix(in srgb, var(--logo-teal) 20%, transparent);
+}
+
+.band--sage .section-mark {
+  background: color-mix(in srgb, var(--logo-sage) 26%, transparent);
+  color: var(--sage);
 }
 
 .band--tight {
@@ -210,6 +237,11 @@ main::before {
   width: 100%;
   height: clamp(300px, 52vw, 640px);
   object-fit: cover;
+}
+
+/* Images sitting inside a band get the soft corner treatment. */
+.rounded img {
+  border-radius: var(--radius-xl);
 }
 
 /* A row with a mono label sitting in the rail beside the thread. */
@@ -302,16 +334,18 @@ a {
   justify-content: center;
   gap: var(--space-xs);
   min-height: var(--tap);
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.75rem;
   border: 1px solid transparent;
-  border-radius: var(--radius);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
   font-size: var(--step-body);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--t-base) var(--ease),
-    border-color var(--t-base) var(--ease), color var(--t-base) var(--ease);
+    border-color var(--t-base) var(--ease), color var(--t-base) var(--ease),
+    transform var(--t-base) var(--ease);
 }
 
 .btn--primary {
@@ -321,6 +355,12 @@ a {
 
 .btn--primary:hover {
   background: var(--accent-bright);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn--primary:hover {
+    transform: translateY(-1px);
+  }
 }
 
 /* Secondary actions are never a second filled button competing with the primary. */

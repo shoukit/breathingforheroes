@@ -16,6 +16,10 @@
    */
   --paper: #f4f7f8;
   --paper-sunk: #e6eef0;
+  /* Two soft washes so alternating bands carry a hint of colour instead of grey.
+     Both are light enough that --ink still clears 12:1 on them. */
+  --wash-teal: #e8f1f1;
+  --wash-sage: #eef1e8;
   --ink: #12293d;       /* 13.83:1 on paper · 12.66:1 on sunk */
   --ink-soft: #4c6377;  /*  5.81:1 on paper ·  5.32:1 on sunk */
 
@@ -30,7 +34,9 @@
   --ice: #bbd4da;
 
   --line: #cfdde1;
-  --line-strong: #7b96a1; /* 3.4:1 on paper — form borders and real UI boundaries */
+  /* Form borders and real UI boundaries. Must clear 3:1 on all three surfaces:
+     paper 3.94, wash-teal 3.70, wash-sage 3.72. */
+  --line-strong: #647f8a;
   --thread: rgb(18 41 61 / 0.16);
 
   --focus: #12293d;
@@ -83,8 +89,12 @@
   --measure: 66ch;
   --pad: 1.25rem;
   --rail-w: 1.5rem;
-  --radius: 10px;   /* softer than before — sharp corners read colder than this brand is */
-  --radius-lg: 18px;
+  /* Rounded well past the usual. Sharp corners read as institutional, and this is
+     a one-person practice — the geometry should feel approachable. */
+  --radius: 16px;
+  --radius-lg: 28px;
+  --radius-xl: 40px;
+  --radius-pill: 999px;
   --tap: 44px;
 
   /* ---- Motion ------------------------------------------------------------ */

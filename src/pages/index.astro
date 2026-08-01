@@ -5,6 +5,8 @@ import BreathCurve from '../components/BreathCurve.astro';
 import Cta from '../components/Cta.astro';
 import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
+import Ornament from '../components/Ornament.astro';
+import WaveDivider from '../components/WaveDivider.astro';
 import SafetyNote from '../components/SafetyNote.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { contraindications, person, primaryCta } from '../data/site';
@@ -65,7 +67,8 @@ const teaser = timeline.slice(0, 4);
   <section class="band" aria-labelledby="problem">
     <div class="shell">
       <div class="lane prose" data-reveal>
-        <span class="mono">Das Problem</span>
+        <Ornament name="breath" size={34} class="section-mark" />
+          <span class="mono">Das Problem</span>
         <h2 id="problem">Der Kopf macht abends einfach weiter</h2>
         <p>
           Du funktionierst. Der Tag läuft, die Aufgaben werden erledigt, von außen sieht alles in
@@ -80,10 +83,12 @@ const teaser = timeline.slice(0, 4);
     </div>
   </section>
 
+  <WaveDivider fill="var(--wash-teal)" />
   <section class="band band--sunk" aria-labelledby="loesung">
     <div class="shell">
       <div class="lane">
         <div class="prose" data-reveal>
+          <Ornament name="wave" size={34} class="section-mark" />
           <span class="mono">Die Methode</span>
           <h2 id="loesung">Atmen ist etwas, das du tun kannst</h2>
           <p>
@@ -124,6 +129,8 @@ const teaser = timeline.slice(0, 4);
     </div>
   </section>
 
+  <WaveDivider fill="var(--paper)" />
+
   <div class="fullbleed">
     <Image
       src={raum}
@@ -139,6 +146,7 @@ const teaser = timeline.slice(0, 4);
     <div class="shell">
       <div class="lane">
         <div class="section-head" data-reveal>
+          <Ornament name="arc" size={34} class="section-mark" />
           <span class="mono">Ablauf</span>
           <h2 id="ablauf">So läuft eine Session ab</h2>
         </div>
@@ -165,10 +173,12 @@ const teaser = timeline.slice(0, 4);
     </div>
   </section>
 
-  <section class="band band--sunk" aria-labelledby="angebot">
+  <WaveDivider fill="var(--wash-sage)" />
+  <section class="band band--sage" aria-labelledby="angebot">
     <div class="shell">
       <div class="lane">
         <div class="section-head" data-reveal>
+          <Ornament name="crystal" size={34} class="section-mark" />
           <span class="mono">Angebot</span>
           <h2 id="angebot">Einzeln oder in der Gruppe</h2>
         </div>
@@ -206,7 +216,8 @@ const teaser = timeline.slice(0, 4);
   <section class="band band--tight" aria-labelledby="person">
     <div class="shell">
       <div class="lane prose" data-reveal>
-        <span class="mono">Wer dich anleitet</span>
+        <Ornament name="drop" size={34} class="section-mark" />
+          <span class="mono">Wer dich anleitet</span>
         <h2 id="person">{person.name}</h2>
         <p>
           Ich bin zertifizierter Breathwork Instructor in Bonn. Angefangen hat es 2019 mit
@@ -353,9 +364,12 @@ const teaser = timeline.slice(0, 4);
     gap: var(--space-xl);
   }
 
+  /* A soft card rather than a rule — friendlier, and it separates the two
+     offers without a hard line between them. */
   .offer {
-    padding-top: var(--space-md);
-    border-top: 2px solid var(--accent);
+    padding: var(--space-lg);
+    background: var(--paper);
+    border-radius: var(--radius-lg);
     max-width: 46ch;
   }
 
