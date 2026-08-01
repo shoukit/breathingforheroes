@@ -88,10 +88,18 @@ const { image, eyebrow, title, lead, focus = 'center 50%' } = Astro.props;
     object-position: center 55%;
   }
 
+  /* Vertical below 60rem, where the text runs the full width; horizontal above it,
+     where the text sits in the left column and the right half can stay photograph. */
   .page-hero__scrim {
     position: absolute;
     inset: 0;
-    background: var(--scrim-strong);
+    background: var(--scrim-strong-narrow);
+  }
+
+  @media (min-width: 60rem) {
+    .page-hero__scrim {
+      background: var(--scrim-strong);
+    }
   }
 
   .page-hero__inner {
@@ -106,6 +114,14 @@ const { image, eyebrow, title, lead, focus = 'center 50%' } = Astro.props;
   .page-hero__lead {
     margin-top: var(--space-md);
     color: var(--ink);
+  }
+
+  /* Bounded so the headline keeps a readable measure — and so the directional
+     scrim can clear on the right without leaving text over the bare photograph. */
+  @media (min-width: 60rem) {
+    .page-hero__inner .lane > * {
+      max-width: 40rem;
+    }
   }
 
   @media (min-width: 60rem) {
