@@ -4,18 +4,15 @@
  * Pages never write their own meta tags — they pass props.
  */
 /**
- * `opsz` rather than `index`: the default build ships only the weight axis, which
- * silently made every `font-variation-settings: 'opsz' …` in the stylesheets inert.
- * The optical-size axis is what makes the display face hold up at hero size, so it
- * is worth its 30 kB. SOFT and WONK stay out — we set both to their defaults.
+ * Montserrat matches the geometric sans of the logo, so headings and mark read as
+ * one system. Source Sans 3 is warmer and quieter underneath it. Both variable, so
+ * every weight costs one file instead of three.
  *
- * Latin-only subsets: German needs nothing beyond it, and the full package would
+ * Latin-only subsets: German needs nothing beyond it, and the full packages would
  * ship Cyrillic, Greek and Vietnamese files that are never requested.
  */
-import '@fontsource-variable/fraunces/opsz.css';
-import '@fontsource/ibm-plex-sans/latin-400.css';
-import '@fontsource/ibm-plex-sans/latin-500.css';
-import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource-variable/montserrat/wght.css';
+import '@fontsource-variable/source-sans-3/wght.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import '../styles/global.css';
 
@@ -24,8 +21,8 @@ import '../styles/global.css';
  * discovers them after the stylesheet parses, which costs a round trip on the LCP
  * text. Imported as URLs so the hashed filenames stay correct across builds.
  */
-import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url';
-import plexLatin from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
+import montserratLatin from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
+import sourceLatin from '@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2?url';
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -94,8 +91,8 @@ const graph = [localBusiness, ...schema];
     <meta property="og:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={plexLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={montserratLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sourceLatin} as="font" type="font/woff2" crossorigin />
 
     <meta name="theme-color" content="#f5f2ee" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

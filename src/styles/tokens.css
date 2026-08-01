@@ -1,48 +1,73 @@
 /**
  * Design tokens. The only place raw colour, space and type values may appear.
  * Contrast ratios in the comments are computed, not estimated.
+ *
+ * The palette is taken from the logo — navy, teal, sage — rather than invented.
+ * The site has to look like it belongs to the mark, not the other way round.
+ * The logo's own teal (#4E9A9E) and sage (#8CA675) are too light to carry text
+ * (3.03:1 and 2.49:1 on the ground), so they stay graphic-only and the text
+ * variants below are darkened until they clear 4.5:1 on both surfaces.
  */
 
 :root {
   /* ---- Colour ------------------------------------------------------------
-   * Warm paper, warm ink, one cold accent. The warmth carries the human side
-   * of the practice, the cold accent the sober register of the copy.
+   * Cool and high-key, like winter light through mist — the atmosphere the
+   * practice actually happens in, and calm without being dim.
    */
-  --paper: #f5f2ee;
-  --paper-sunk: #eae5de;
-  --ink: #17120e;        /* 16.66:1 on paper · 14.84:1 on sunk */
-  --ink-soft: #574d45;   /*  7.37:1 on paper ·  6.57:1 on sunk */
-  --accent: #0e4a54;     /*  8.85:1 on paper · white on it 9.88:1 */
-  --accent-bright: #12626f; /* hover · white on it 6.99:1 */
+  --paper: #f4f7f8;
+  --paper-sunk: #e6eef0;
+  --ink: #12293d;       /* 13.83:1 on paper · 12.66:1 on sunk */
+  --ink-soft: #4c6377;  /*  5.81:1 on paper ·  5.32:1 on sunk */
 
-  --line: #d6cfc6;        /* decorative rules */
-  --line-strong: #7c7269; /* 4.21:1 on paper — form borders and real UI boundaries */
-  /* The thread crosses paper, sunk bands and photographs. A translucent ink keeps
-     it equally present on all three; a fixed tint disappeared on the sunk bands. */
-  --thread: rgb(23 18 14 / 0.18);
+  --accent: #26666e;    /*  6.08:1 on paper ·  5.56:1 on sunk · white on it 6.55:1 */
+  --accent-bright: #2f7d86;
+  --sage: #586f43;      /*  5.17:1 on paper ·  4.74:1 on sunk */
 
-  --focus: #0e4a54;
+  /* Logo colours. Graphic use only — never as text. */
+  --logo-navy: #14395b;
+  --logo-teal: #4e9a9e;
+  --logo-sage: #8ca675;
+  --ice: #bbd4da;
 
-  /* ---- Type -------------------------------------------------------------- */
-  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --line: #cfdde1;
+  --line-strong: #7b96a1; /* 3.4:1 on paper — form borders and real UI boundaries */
+  --thread: rgb(18 41 61 / 0.16);
+
+  --focus: #12293d;
+
+  /* Scrim for type over photography. Verified against the images in use. */
+  --scrim: linear-gradient(
+    to bottom,
+    rgb(244 247 248 / 0.82) 0%,
+    rgb(244 247 248 / 0.68) 40%,
+    rgb(244 247 248 / 0.42) 78%,
+    rgb(244 247 248 / 0.7) 100%
+  );
+
+  /* ---- Type --------------------------------------------------------------
+   * Montserrat matches the geometric sans of the logo, so headings and mark
+   * read as one system. Source Sans 3 is warmer and quieter underneath it.
+   */
+  --font-display: 'Montserrat Variable', 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Source Sans 3 Variable', 'Source Sans 3', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  --step-h1: clamp(2.75rem, 7vw, 5.25rem);
-  --step-h2: clamp(1.875rem, 3.5vw, 2.75rem);
-  --step-h3: 1.375rem;
+  --step-hero: clamp(2.5rem, 6.5vw, 5rem);
+  --step-h1: clamp(2.25rem, 5vw, 3.75rem);
+  --step-h2: clamp(1.75rem, 3.2vw, 2.5rem);
+  --step-h3: 1.3125rem;
   --step-lead: clamp(1.125rem, 1.6vw, 1.375rem);
   --step-body: 1.0625rem;
   --step-small: 0.9375rem;
   --step-mono: 0.8125rem;
 
-  --leading-tight: 1.02;
-  --leading-head: 1.12;
-  --leading-body: 1.7;
+  --leading-tight: 1.06;
+  --leading-head: 1.15;
+  --leading-body: 1.75;
 
   /* ---- Space -------------------------------------------------------------
-   * Section rhythm is deliberately generous. The subject is slowing down;
-   * a cramped page would contradict the copy.
+   * Deliberately generous. The subject is slowing down; a tight page argues
+   * against the copy.
    */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
@@ -51,27 +76,29 @@
   --space-lg: 2rem;
   --space-xl: 3rem;
   --space-2xl: 4.5rem;
-  --band-y: clamp(4.5rem, 10vw, 8rem);
+  --band-y: clamp(5rem, 12vw, 10rem);
 
   /* ---- Layout ------------------------------------------------------------ */
-  --maxw: 1180px;
-  --measure: 68ch;      /* longer lines tire the reader */
+  --maxw: 1240px;
+  --measure: 66ch;
   --pad: 1.25rem;
-  --rail-w: 1.5rem;     /* gap between the thread and the content */
-  --radius: 4px;        /* small and uniform — soft radii read as app, sharp as newspaper */
-  --tap: 44px;          /* minimum touch target */
+  --rail-w: 1.5rem;
+  --radius: 10px;   /* softer than before — sharp corners read colder than this brand is */
+  --radius-lg: 18px;
+  --tap: 44px;
 
   /* ---- Motion ------------------------------------------------------------ */
-  --breath-cycle: 4s;   /* real breathing tempo, not a design decision */
-  --t-fast: 140ms;
-  --t-base: 220ms;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --breath-cycle: 4s;
+  --t-fast: 160ms;
+  --t-base: 280ms;
+  --t-slow: 700ms;
+  --ease: cubic-bezier(0.33, 0, 0.15, 1);
 }
 
 @media (min-width: 60rem) {
   :root {
     --pad: 2.5rem;
-    --rail-w: 8.5rem; /* wide enough for the mono time markers */
+    --rail-w: 8.5rem;
     --step-body: 1.125rem;
   }
 }

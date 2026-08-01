@@ -11,6 +11,7 @@ import { contraindications, person, primaryCta } from '../data/site';
 import { offers, timeline } from '../data/offers';
 import { breathworkFaq } from '../data/faq';
 import raum from '../assets/raum.jpg';
+import atem from '../assets/atem.jpg';
 
 const title = 'Breathwork in Bonn — Conscious Connected Breathing | Tom Geier';
 const description =
@@ -21,11 +22,27 @@ const teaser = timeline.slice(0, 4);
 ---
 
 <Base title={title} description={description}>
+  {/* Type over full-bleed photography, the way the predecessor hero worked. The
+      scrim is not decoration — it is what keeps the text at 4.5:1 over an image
+      whose brightness varies. */}
   <section class="hero">
-    <div class="shell">
+    <div class="hero__media">
+      <Image
+        src={atem}
+        alt=""
+        widths={[768, 1280, 1920, 2000]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        quality={80}
+      />
+      <div class="hero__scrim"></div>
+    </div>
+
+    <div class="shell hero__inner">
       <div class="lane">
-        <p class="mono hero__eyebrow" data-reveal>Breathwork in Bonn — {person.name}</p>
-        <h1 data-reveal>Runterkommen, wenn Stillsitzen nicht funktioniert.</h1>
+        <p class="eyebrow" data-reveal>Dein Atem. Deine Stärke. Dein Weg.</p>
+        <h1 class="display" data-reveal>Runterkommen, wenn Stillsitzen nicht funktioniert</h1>
         <p class="lead hero__lead" data-reveal>
           Conscious Connected Breathing ist aktive Atemarbeit — 45 Minuten, in denen du etwas tust,
           statt still zu sitzen und zu warten, dass die Gedanken aufhören. Einzeln oder in der
@@ -42,18 +59,6 @@ const teaser = timeline.slice(0, 4);
 
         <BreathCurve class="hero__curve" />
       </div>
-    </div>
-
-    <div class="hero__figure">
-      <Image
-        src={raum}
-        alt="Ein ruhiger, schlichter Raum mit Holzdielen: eine Matte, eine gefaltete Wolldecke und ein Kissen, daneben ein Fenster mit Tageslicht."
-        widths={[640, 1024, 1600, 2000]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-        quality={78}
-      />
     </div>
   </section>
 
@@ -118,6 +123,17 @@ const teaser = timeline.slice(0, 4);
       </div>
     </div>
   </section>
+
+  <div class="fullbleed">
+    <Image
+      src={raum}
+      alt="Ein ruhiger, schlichter Raum mit Parkettboden: eine Matte, eine gefaltete Wolldecke und ein Kissen, daneben ein Fenster mit Tageslicht."
+      widths={[768, 1280, 1920, 2000]}
+      sizes="100vw"
+      loading="lazy"
+      quality={78}
+    />
+  </div>
 
   <section class="band" aria-labelledby="ablauf">
     <div class="shell">
@@ -225,16 +241,46 @@ const teaser = timeline.slice(0, 4);
 
 <style>
   .hero {
-    padding-top: var(--space-lg);
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(3rem, 9vw, 7.5rem) clamp(3.5rem, 9vw, 7rem);
   }
 
-  .hero__eyebrow {
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .hero__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+
+  /* Not decoration: this is what holds the text at 4.5:1 over an image whose
+     brightness varies across the frame. */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: var(--scrim);
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  .eyebrow {
+    display: block;
     margin-bottom: var(--space-md);
   }
 
   .hero__lead {
     margin-top: var(--space-md);
     max-width: 54ch;
+    color: var(--ink);
   }
 
   .hero__actions {
@@ -246,10 +292,6 @@ const teaser = timeline.slice(0, 4);
   }
 
   @media (min-width: 60rem) {
-    .hero {
-      padding-top: clamp(3rem, 8vw, 6rem);
-    }
-
     .hero__lead {
       margin-top: var(--space-lg);
     }
@@ -263,14 +305,10 @@ const teaser = timeline.slice(0, 4);
     margin-top: clamp(2.5rem, 6vw, 4rem);
   }
 
-  .hero__figure {
-    margin-top: clamp(3rem, 7vw, 5rem);
-  }
-
-  .hero__figure :global(img) {
-    width: 100%;
-    height: clamp(260px, 46vw, 560px);
-    object-fit: cover;
+  /* The caption sits where the scrim is thinnest. --ink-soft measured 3.20:1
+     against the photograph there; full ink brings it back to ~8:1. */
+  .hero__curve :global(.breath__caption) {
+    color: var(--ink);
   }
 
   .facts {
@@ -338,7 +376,6 @@ const teaser = timeline.slice(0, 4);
     font-family: var(--font-display);
     font-size: 2.25rem;
     line-height: 1.1;
-    font-variation-settings: 'opsz' 40;
   }
 
   .offer__meta {

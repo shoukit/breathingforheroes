@@ -12,9 +12,13 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
 
 <header class="site-header">
   <div class="shell site-header__inner">
-    <a class="wordmark" href="/">
-      <span class="wordmark__name">{site.name}</span>
-      <span class="wordmark__place mono">Bonn</span>
+    {/* Placeholder wordmark in the logo's colours. Drop the real file at
+        src/assets/logo.svg and swap this block for an <Image> — see docs/06-uebergabe.md. */}
+    <a class="wordmark" href="/" aria-label={`${site.name} — Startseite`}>
+      <span class="wordmark__name">
+        <span class="wordmark__a">Breathing</span>{' '}<span class="wordmark__b">for Heroes</span>
+      </span>
+      <span class="wordmark__sub">Breathing Techniques &amp; Ice Bathing</span>
     </a>
 
     <nav class="site-nav" aria-label="Hauptnavigation">
@@ -65,37 +69,50 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
   }
 
   .wordmark {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    min-height: var(--tap);
+    display: grid;
+    gap: 0.1rem;
     align-content: center;
-    flex-wrap: wrap;
+    min-height: var(--tap);
     text-decoration: none;
   }
 
   .wordmark__name {
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-variation-settings: 'opsz' 24;
-    letter-spacing: -0.01em;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
     white-space: nowrap;
   }
 
-  .wordmark__place {
-    color: var(--ink-soft);
+  .wordmark__a {
+    color: var(--logo-navy);
   }
 
-  /* Below this the name and the CTA cannot share a line with the place tag. */
+  .wordmark__b {
+    color: var(--accent);
+  }
+
+  .wordmark__sub {
+    font-family: var(--font-display);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  /* The strapline cannot share the row with the CTA on the narrowest phones. */
   @media (max-width: 26rem) {
-    .wordmark__place {
+    .wordmark__sub {
       display: none;
     }
   }
 
   @media (min-width: 30rem) {
     .wordmark__name {
-      font-size: 1.125rem;
+      font-size: 1.25rem;
     }
   }
 
