@@ -1,0 +1,111 @@
+---
+/**
+ * Cross-fading hero imagery, the way the predecessor site did it.
+ *
+ * Pure CSS — no JavaScript. Each slide runs the same keyframes on the full cycle
+ * with a negative delay that offsets it by one slot, so slide n is already in the
+ * right phase on the first frame and the loop needs no coordination.
+ *
+ * Under prefers-reduced-motion only the first slide is rendered visible and
+ * nothing animates: a slideshow that swaps under someone who asked for stillness
+ * is exactly what that setting exists to prevent.
+ *
+ * Cost is real — four hero frames instead of one. Only the first is fetched at
+ * high priority; the rest are explicitly deprioritised so they cannot compete
+ * with the LCP.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  slides: { image: ImageMetadata; alt?: string; focus?: string }[];
+  /** Seconds each slide holds before it hands over. */
+  interval?: number;
+}
+
+const { slides, interval = 7 } = Astro.props;
+const total = slides.length * interval;
+---
+
+<div class="slides" style={`--total:${total}s; --slot:${interval}s`}>
+  {
+    slides.map((slide, i) => (
+      <div class="slide" data-slide={i} data-focus={slide.focus ?? 'center 50%'}>
+        <Image
+          src={slide.image}
+          alt={slide.alt ?? ''}
+          widths={[768, 1280, 1920, 2000]}
+          sizes="100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : 'low'}
+          {/* Slides after the first sit behind a frosted panel and are only ever
+              seen mid-dissolve, so they carry less detail than the opening frame. */}
+          quality={i === 0 ? 80 : 68}
+        />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .slides {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+  }
+
+  .slide :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 50%;
+  }
+
+  .slide[data-focus='center 35%'] :global(img) {
+    object-position: center 35%;
+  }
+
+  .slide[data-focus='center 40%'] :global(img) {
+    object-position: center 40%;
+  }
+
+  .slide[data-focus='center 60%'] :global(img) {
+    object-position: center 60%;
+  }
+
+  /* Still by default: only the first frame shows unless motion is welcome. */
+  .slide:not([data-slide='0']) {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .slide {
+      opacity: 0;
+      animation: slide-fade var(--total) linear infinite;
+    }
+
+    /* Negative delays offset each slide by one slot, so the cycle is already in
+       phase on the first painted frame — no flash, no start-up sequence. */
+    .slide[data-slide='0'] { animation-delay: 0s; }
+    .slide[data-slide='1'] { animation-delay: calc(var(--total) * -1 + var(--slot)); }
+    .slide[data-slide='2'] { animation-delay: calc(var(--total) * -1 + var(--slot) * 2); }
+    .slide[data-slide='3'] { animation-delay: calc(var(--total) * -1 + var(--slot) * 3); }
+    .slide[data-slide='4'] { animation-delay: calc(var(--total) * -1 + var(--slot) * 4); }
+
+    /* Percentages assume four slides: each holds a quarter, and the hand-over
+       takes about a fifth of a slot — long enough to read as a dissolve rather
+       than a cut. */
+    @keyframes slide-fade {
+      0% { opacity: 1; }
+      19% { opacity: 1; }
+      25% { opacity: 0; }
+      94% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  }
+</style>

@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import BreathCurve from '../components/BreathCurve.astro';
+import HeroSlideshow from '../components/HeroSlideshow.astro';
 import Cta from '../components/Cta.astro';
 import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
@@ -12,8 +12,10 @@ import Testimonials from '../components/Testimonials.astro';
 import { contraindications, person, primaryCta } from '../data/site';
 import { offers, timeline } from '../data/offers';
 import { breathworkFaq } from '../data/faq';
-import raum from '../assets/raum.jpg';
-import atem from '../assets/atem.jpg';
+import heroSee from '../assets/hero-see.jpg';
+import heroUfer from '../assets/hero-ufer.jpg';
+import heroEis from '../assets/hero-eis.jpg';
+import heroWald from '../assets/hero-wald.jpg';
 
 const title = 'Breathwork in Bonn — Conscious Connected Breathing | Tom Geier';
 const description =
@@ -21,6 +23,19 @@ const description =
 
 /** Only the first four steps on the home page — the full timeline lives on /breathwork/. */
 const teaser = timeline.slice(0, 4);
+
+/**
+ * The predecessor site cross-faded powerful winter imagery, and the client wants
+ * that back. Order runs wide → human → elemental → light, so the sequence builds
+ * rather than just cycling. Alt stays empty on all four: they are atmosphere, and
+ * the headline beside them carries the meaning.
+ */
+const heroSlides = [
+  { image: heroSee, focus: 'center 50%' },
+  { image: heroUfer, focus: 'center 40%' },
+  { image: heroEis, focus: 'center 50%' },
+  { image: heroWald, focus: 'center 60%' },
+];
 ---
 
 <Base title={title} description={description}>
@@ -29,37 +44,31 @@ const teaser = timeline.slice(0, 4);
       whose brightness varies. */}
   <section class="hero">
     <div class="hero__media">
-      <Image
-        src={atem}
-        alt=""
-        widths={[768, 1280, 1920, 2000]}
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-        quality={80}
-      />
+      <HeroSlideshow slides={heroSlides} interval={7} />
       <div class="hero__scrim"></div>
     </div>
 
     <div class="shell hero__inner">
       <div class="lane">
-        <p class="eyebrow" data-reveal>Dein Atem. Deine Stärke. Dein Weg.</p>
-        <h1 class="display" data-reveal>Runterkommen, wenn Stillsitzen nicht funktioniert</h1>
-        <p class="lead hero__lead" data-reveal>
-          Conscious Connected Breathing ist aktive Atemarbeit — 45 Minuten, in denen du etwas tust,
-          statt still zu sitzen und zu warten, dass die Gedanken aufhören. Einzeln oder in der
-          Gruppe, in Bonn oder online.
-        </p>
+        <div class="hero__panel" data-reveal>
+          <p class="eyebrow">Dein Atem. Deine Stärke. Dein Weg.</p>
+          <h1 class="display">Runterkommen, wenn Stillsitzen nicht funktioniert</h1>
+          <p class="lead hero__lead">
+            Conscious Connected Breathing ist aktive Atemarbeit — 45 Minuten, in denen du etwas
+            tust, statt still zu sitzen und zu warten, dass die Gedanken aufhören. Einzeln oder in
+            der Gruppe, in Bonn oder online.
+          </p>
 
-        <div class="hero__actions" data-reveal>
-          <a class="btn btn--primary" href={primaryCta.href}>{primaryCta.label}</a>
-          <a class="link-arrow" href="/breathwork/">
-            Was in einer Session passiert
-            <Icon name="ArrowRight" size={17} />
-          </a>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href={primaryCta.href}>{primaryCta.label}</a>
+            <a class="link-arrow" href="/breathwork/">
+              Was in einer Session passiert
+              <Icon name="ArrowRight" size={17} />
+            </a>
+          </div>
+
+          <BreathCurve class="hero__curve" />
         </div>
-
-        <BreathCurve class="hero__curve" />
       </div>
     </div>
   </section>
@@ -130,17 +139,6 @@ const teaser = timeline.slice(0, 4);
   </section>
 
   <WaveDivider fill="var(--paper)" />
-
-  <div class="fullbleed">
-    <Image
-      src={raum}
-      alt="Ein ruhiger, schlichter Raum mit Parkettboden: eine Matte, eine gefaltete Wolldecke und ein Kissen, daneben ein Fenster mit Tageslicht."
-      widths={[768, 1280, 1920, 2000]}
-      sizes="100vw"
-      loading="lazy"
-      quality={78}
-    />
-  </div>
 
   <WaveDivider fill="var(--deep)" />
   <section class="band band--deep" aria-labelledby="ablauf">
@@ -272,12 +270,28 @@ const teaser = timeline.slice(0, 4);
     object-position: center 45%;
   }
 
-  /* Not decoration: this is what holds the text at 4.5:1 over an image whose
-     brightness varies across the frame. */
+  /* Only a light unifying veil. With four images cross-fading behind it, a scrim
+     can never be the thing that guarantees contrast — it would have to be dense
+     enough for the brightest pixel of the brightest frame. The panel does that
+     job instead, and the photographs stay photographs. */
   .hero__scrim {
     position: absolute;
     inset: 0;
-    background: var(--scrim);
+    background: rgb(244 247 248 / 0.14);
+  }
+
+  .hero__panel {
+    max-width: 62rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: rgb(244 247 248 / 0.94);
+    border-radius: var(--radius-lg);
+  }
+
+  @supports (backdrop-filter: blur(1px)) {
+    .hero__panel {
+      background: rgb(244 247 248 / 0.87);
+      backdrop-filter: blur(16px) saturate(1.1);
+    }
   }
 
   .hero__inner {

@@ -87,7 +87,9 @@
   --font-body: 'Source Sans 3 Variable', 'Source Sans 3', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  --step-hero: clamp(2.5rem, 6.5vw, 5rem);
+  /* Capped lower than before: inside the hero panel the old maximum broke the
+     line five times. */
+  --step-hero: clamp(2.25rem, 5.2vw, 4rem);
   --step-h1: clamp(2.25rem, 5vw, 3.75rem);
   --step-h2: clamp(1.75rem, 3.2vw, 2.5rem);
   --step-h3: 1.3125rem;
