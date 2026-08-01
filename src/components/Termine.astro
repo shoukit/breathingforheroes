@@ -1,0 +1,157 @@
+---
+/**
+ * Upcoming dates. Renders nothing at all when there are none — a section headed
+ * "Termine" with nothing under it is worse than no section.
+ *
+ * "Nur noch wenige Plätze" and "Ausgebucht" come from the real capacity of a real
+ * date. They are never set to manufacture urgency.
+ */
+import Icon from '../components/Icon.astro';
+import Ornament from '../components/Ornament.astro';
+import { formatDate, formatTimeRange, statusLabel, upcoming } from '../data/events';
+import { primaryCta } from '../data/site';
+
+const list = upcoming();
+---
+
+{
+  list.length > 0 && (
+    <section class="band" aria-labelledby="termine">
+      <div class="shell">
+        <div class="lane">
+          <div class="section-head" data-reveal>
+            <Ornament name="arc" size={34} class="section-mark" />
+            <span class="mono">Termine</span>
+            <h2 id="termine">Die nächsten festen Termine</h2>
+          </div>
+
+          <ul class="events">
+            {list.map((e) => (
+              <li class="event" data-reveal>
+                <p class="event__when mono">
+                  {formatDate(e.start)}
+                  <span>{formatTimeRange(e.start, e.end)}</span>
+                </p>
+
+                <div class="event__body">
+                  <h3>{e.title}</h3>
+                  <p>{e.summary}</p>
+                  <p class="event__meta">
+                    <span class="event__price">{e.price}</span>
+                    <span>{e.place}</span>
+                  </p>
+                </div>
+
+                <div class="event__action">
+                  <span class:list={['pill', `pill--${e.status}`]}>{statusLabel[e.status]}</span>
+                  {e.status !== 'full' && (
+                    <a class="link-arrow" href={`/termine/${e.slug}/`}>
+                      Details
+                      <Icon name="ArrowRight" size={17} />
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <p class="events__note" data-reveal>
+            Passt kein Termin? <a href={primaryCta.href}>Schreib mir</a> — Einzelsessions gehen
+            jederzeit nach Absprache.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .events {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .event {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--wash-teal);
+    border-radius: var(--radius-lg);
+  }
+
+  .event__when {
+    display: grid;
+    gap: var(--space-2xs);
+    color: var(--accent);
+    text-transform: none;
+    letter-spacing: 0.03em;
+  }
+
+  .event__when span {
+    color: var(--ink-soft);
+  }
+
+  .event__body > * + * {
+    margin-top: var(--space-xs);
+  }
+
+  .event__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem var(--space-md);
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+  }
+
+  .event__price {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .event__action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--step-small);
+    font-weight: 600;
+  }
+
+  .pill--open {
+    background: color-mix(in srgb, var(--sage) 18%, transparent);
+    color: var(--sage);
+  }
+
+  .pill--few,
+  .pill--full {
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    color: var(--accent);
+  }
+
+  .events__note {
+    margin-top: var(--space-xl);
+    color: var(--ink-soft);
+  }
+
+  .events__note a {
+    color: var(--accent);
+  }
+
+  @media (min-width: 52rem) {
+    .event {
+      grid-template-columns: 14rem minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--space-xl);
+    }
+  }
+</style>

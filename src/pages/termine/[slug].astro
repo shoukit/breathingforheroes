@@ -1,0 +1,141 @@
+---
+/**
+ * One page per dated event — the pattern the best-ranking competitor uses. Each
+ * date becomes its own indexable page with the date in the title, plus Event
+ * structured data.
+ *
+ * A dynamic route on purpose: with no events in the data, getStaticPaths returns
+ * nothing and no pages are built. The site never carries an empty dates page.
+ */
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import SafetyNote from '../../components/SafetyNote.astro';
+import { events, formatDate, formatTimeRange, statusLabel } from '../../data/events';
+import { contact, contraindications, site } from '../../data/site';
+
+export function getStaticPaths() {
+  return events.map((event) => ({ params: { slug: event.slug }, props: { event } }));
+}
+
+const { event } = Astro.props;
+
+const title = `${event.title} — ${formatDate(event.start)} in Bonn`;
+const description = `${event.summary} ${formatDate(event.start)}, ${formatTimeRange(
+  event.start,
+  event.end
+)}. ${event.price} · ${event.place}`;
+
+const eventSchema = {
+  '@type': 'Event',
+  name: event.title,
+  startDate: event.start,
+  endDate: event.end,
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: {
+    '@type': 'Place',
+    name: site.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: contact.street,
+      postalCode: contact.postalCode,
+      addressLocality: contact.city,
+      addressCountry: contact.country,
+    },
+  },
+  organizer: { '@id': `${site.url}/#practice` },
+  offers: {
+    '@type': 'Offer',
+    price: event.priceNumeric,
+    priceCurrency: 'EUR',
+    availability:
+      event.status === 'full' ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+    url: new URL(`/termine/${event.slug}/`, site.url).href,
+  },
+  description: event.summary,
+};
+---
+
+<Base title={title} description={description} schema={[eventSchema]}>
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono" data-reveal>{formatDate(event.start)}</p>
+        <h1 data-reveal>{event.title}</h1>
+        <p class="lead" data-reveal>{event.summary}</p>
+
+        <dl class="facts" data-reveal>
+          <div>
+            <dt class="mono">Wann</dt>
+            <dd>{formatDate(event.start)}, {formatTimeRange(event.start, event.end)}</dd>
+          </div>
+          <div>
+            <dt class="mono">Wo</dt>
+            <dd>{event.place}</dd>
+          </div>
+          <div>
+            <dt class="mono">Preis</dt>
+            <dd>{event.price}</dd>
+          </div>
+          <div>
+            <dt class="mono">Plätze</dt>
+            <dd>{statusLabel[event.status]}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane" data-reveal>
+        <SafetyNote items={contraindications} />
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    heading={event.status === 'full' ? 'Dieser Termin ist voll' : 'Platz sichern'}
+    body={
+      event.status === 'full'
+        ? 'Schreib mir trotzdem — ich sage dir Bescheid, sobald ein Platz frei wird oder der nächste Termin steht.'
+        : 'Schreib mir kurz, dass du dabei sein möchtest. Ich bestätige dir den Platz.'
+    }
+  />
+</Base>
+
+<style>
+  .mono:first-child {
+    margin-bottom: var(--space-md);
+  }
+
+  .lead {
+    margin-top: var(--space-md);
+  }
+
+  .facts {
+    display: grid;
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+    padding: var(--space-lg);
+    background: var(--wash-teal);
+    border-radius: var(--radius-lg);
+    max-width: var(--measure);
+  }
+
+  dt {
+    margin-bottom: var(--space-2xs);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  @media (min-width: 46rem) {
+    .facts {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg) var(--space-xl);
+    }
+  }
+</style>
