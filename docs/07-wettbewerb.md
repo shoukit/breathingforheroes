@@ -108,6 +108,36 @@ bringt zusätzlich ein Buchungssystem mit. Ob Bonn dort dünn besetzt ist, konnt
 - **Blog um des Blogs willen.** Verwaiste Beitragslisten schaden mehr, als sie nutzen.
 - **Newsletter-Popup.** Mehrere setzen es ein; es widerspricht der ruhigen Anmutung.
 
+## Nachtrag: InnerCamp (vom Kunden eingebracht)
+
+`innercamp.com` — Shopify-Shop, der Breathwork- und Bodywork-**Ausbildungen** weltweit verkauft.
+Anderes Geschäftsmodell als eine lokale Ein-Personen-Praxis, aber gestalterisch aufschlussreich.
+
+**Die Farbwelt ist der eigentliche Unterschied:** tiefes Aubergine `#2c194c` gegen warmes Creme
+`#f8f6ef`, dazu ein sandiges Gold. Die Seite wechselt zwischen dunklen und warmen Bändern. Genau
+das erzeugt die Wärme und Selbstsicherheit, die unserer kühlen Palette gefehlt hat — nicht die
+Inhalte.
+
+**Abschnittsfolge:** Methode mit eigenem Namen → Ausbildungen → Herkunft der Methode →
+**Upcoming Events** → Zahlenbeleg → Stimmen → Mitgliedschaft → Akkreditierung → Awards → CTA.
+Auch hier wieder: Termine prominent auf der Startseite.
+
+**Übernommen:**
+- Warmer Sandton als eigene Fläche neben den kühlen Tönungen.
+- **Ein** dunkles Band pro Seite. Auf der Startseite trägt es jetzt den Ablauf — den wichtigsten
+  Abschnitt. Dunkel passt inhaltlich: der abgedunkelte Raum, in dem die Session stattfindet.
+
+**Nicht übernommen, weil es Erfindung wäre:**
+- „15.453 Transformative Experiences" — wir haben keine solche Zahl.
+- „4.9★ Trustpilot" im Titel — es gibt keine Bewertungen.
+- Akkreditierung, Awards, Mitgliedschaft — existiert nicht.
+- „The Evolution of Healing", „Transform Your Life" — Heilungs- und Transformationsversprechen,
+  also genau der HWG-Bereich, den der Relaunch verlässt.
+
+InnerCamp stützt sich auf eine Beleg-Architektur aus Zahlen, Bewertungen und Auszeichnungen. Die
+lässt sich nicht kopieren, ohne sie zu erfinden. Was sich übertragen lässt, ist das Handwerk:
+Farbrhythmus, Bandwechsel, Selbstsicherheit im Auftritt.
+
 ## Quellen
 
 - [Atemglück — Breathwork Kurs in Bonn](https://www.atemglueck.de/atemkurs-bonn/)

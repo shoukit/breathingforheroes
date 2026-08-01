@@ -196,9 +196,74 @@ main::before {
   background: var(--wash-teal);
 }
 
-/* The second wash, so consecutive tinted bands do not read as one block. */
+/* Further washes, so consecutive tinted bands never read as one block. */
 .band--sage {
   background: var(--wash-sage);
+}
+
+.band--sand {
+  background: var(--wash-sand);
+}
+
+/* One dark band per page, for the section that should feel immersive. Everything
+   that reads from --ink has to be inverted here, including the thread and the
+   timeline markers, or they vanish. Contrast on --deep: paper 13.83, --deep-soft
+   7.89, --logo-teal 4.57. */
+.band--deep {
+  background: var(--deep);
+  color: var(--paper);
+}
+
+.band--deep :is(h1, h2, h3, h4) {
+  color: var(--paper);
+}
+
+.band--deep .mono,
+.band--deep .lead,
+.band--deep p {
+  color: var(--deep-soft);
+}
+
+.band--deep .railed__label {
+  color: var(--logo-teal);
+}
+
+.band--deep .railed__label::before {
+  background: var(--logo-teal);
+}
+
+.band--deep .section-mark {
+  background: rgb(255 255 255 / 0.1);
+  color: var(--logo-teal);
+}
+
+.band--deep .link-arrow {
+  color: var(--logo-teal);
+  text-decoration-color: rgb(255 255 255 / 0.35);
+}
+
+.band--deep .link-arrow:hover {
+  color: var(--paper);
+}
+
+.band--deep :where(a, button, summary):focus-visible {
+  outline-color: var(--paper);
+}
+
+/* The thread is a translucent ink; over a dark band it disappears. */
+.band--deep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: max(var(--pad), calc((100% - var(--maxw)) / 2));
+  width: 1px;
+  background: rgb(255 255 255 / 0.18);
+  pointer-events: none;
+}
+
+.band--deep {
+  position: relative;
 }
 
 /* Section marker: an ornament in a soft disc, sitting above the eyebrow.

@@ -20,6 +20,12 @@
      Both are light enough that --ink still clears 12:1 on them. */
   --wash-teal: #e8f1f1;
   --wash-sage: #eef1e8;
+  /* A warm ground among the cool ones. Without it the page reads clinical —
+     alternating warm and cool is what gives a calm palette its friendliness. */
+  --wash-sand: #f7f3ea;
+  /* One dark band per page, for the section that should feel immersive. */
+  --deep: #12293d;
+  --deep-soft: #9fc3c9; /* 7.89:1 on --deep */
   --ink: #12293d;       /* 13.83:1 on paper · 12.66:1 on sunk */
   --ink-soft: #4c6377;  /*  5.81:1 on paper ·  5.32:1 on sunk */
 
