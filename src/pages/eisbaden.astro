@@ -1,0 +1,188 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import { iceContraindications } from '../data/site';
+import { iceSteps } from '../data/offers';
+import eis from '../assets/eisbaden.jpg';
+
+const title = 'Eisbaden in Bonn — mit Atemtechnik | Breathing for Heroes';
+const description =
+  'Eisbaden mit vorbereitender Atemtechnik, im Winter in Bonn. Ablauf, Sicherheitshinweise und Termine auf Anfrage.';
+---
+
+<Base title={title} description={description}>
+  <section class="band band--tight page-hero">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono" data-reveal>Saisonal — Winter</p>
+        <h1 data-reveal>Eisbaden in Bonn</h1>
+        <p class="lead" data-reveal>
+          Kälte, die man aushält, weil man weiß, wie man atmet. Ein Winterangebot.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane figure-wrap" data-reveal>
+        <Image
+          src={eis}
+          alt="Eine Person steht bis zur Hüfte in einem kalten, teilweise vereisten See; am Ufer Schnee, kahle Bäume und Nebel."
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 60rem) 1000px, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          quality={78}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="worum">
+    <div class="shell">
+      <div class="lane prose" data-reveal>
+        <span class="mono">Worum es geht</span>
+        <h2 id="worum">Die Atmung ist der Grund, warum es überhaupt geht</h2>
+        <p>
+          Eisbaden heißt: für kurze Zeit in kaltes Wasser gehen — bewusst, kontrolliert und mit einer
+          Atemtechnik, die vorher eingeübt wird. Die Atmung ist dabei nicht Beiwerk, sondern der
+          Grund, warum es überhaupt geht.
+        </p>
+        <p>
+          Die ersten Sekunden im kalten Wasser sind unangenehm. Danach passiert etwas, das schwer zu
+          beschreiben ist: Der Körper hört auf zu kämpfen, die Atmung wird ruhig, und für einen
+          Moment ist sehr wenig Platz für alles andere im Kopf.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="ablauf">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Ablauf</span>
+          <h2 id="ablauf">Wie es abläuft</h2>
+        </div>
+
+        <ol class="steps">
+          {
+            iceSteps.map((step) => (
+              <li data-reveal>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="steps__note" data-reveal>
+          Wie lange du im Wasser bleibst, entscheidest du. Niemand wird zu irgendetwas überredet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane" data-reveal>
+        <SafetyNote
+          heading="Sicherheit"
+          items={iceContraindications}
+          intro="Kälteexposition belastet den Kreislauf. Nicht geeignet ist Eisbaden bei:"
+          outro="Wenn du Vorerkrankungen hast, kläre es vorher ärztlich ab. Es wird nie allein gebadet, und niemand geht ins Wasser, ohne die Atemtechnik vorher geübt zu haben."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="saison">
+    <div class="shell">
+      <div class="lane prose" data-reveal>
+        <span class="mono">Termine</span>
+        <h2 id="saison">Wann es stattfindet</h2>
+        <p>
+          Eisbaden ist ein Winterangebot — die Termine hängen von Wetter und Wassertemperatur ab.
+          Wenn du dabei sein möchtest, schreib mir. Ich melde mich, sobald die Saison beginnt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    heading="Für die Wintersaison vormerken"
+    body="Schreib mir kurz, dass du beim Eisbaden dabei sein möchtest. Ich melde mich, sobald es losgeht."
+  />
+</Base>
+
+<style>
+  .page-hero .mono {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-hero .lead {
+    margin-top: var(--space-lg);
+  }
+
+  .figure-wrap :global(img) {
+    width: 100%;
+    max-width: 1000px;
+    height: clamp(240px, 44vw, 520px);
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  /* The order is the actual safety sequence — the numbers carry information. */
+  .steps li {
+    counter-increment: step;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--step-mono);
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: var(--space-xs);
+  }
+
+  .steps h3 {
+    font-family: var(--font-body);
+    font-size: var(--step-body);
+    font-weight: 600;
+  }
+
+  .steps p {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    margin-top: var(--space-2xs);
+  }
+
+  .steps__note {
+    margin-top: var(--space-xl);
+    font-weight: 500;
+    max-width: var(--measure);
+  }
+
+  @media (min-width: 52rem) {
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+    }
+  }
+</style>

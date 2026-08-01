@@ -1,0 +1,124 @@
+---
+/**
+ * The signature element: a diagram of the actual technique.
+ *
+ * Active, short inhale; passive, longer exhale; no pause between them. The
+ * asymmetry is not styled in — it falls out of the geometry. A light pulse
+ * travels the curve at constant arc-length speed, and the rising arc is shorter
+ * than the falling arc (≈44% / ≈56% of a cycle), so the pulse reproduces the real
+ * rhythm. Watching it gives you the tempo.
+ *
+ * The pulse is a dash travelling along the stroke rather than an element moving in
+ * pixel space, so it stays correct at any width and under any aspect distortion.
+ * `pathLength` normalises the geometry to 1000 units, which keeps the dash maths
+ * independent of the number of cycles.
+ *
+ * Under reduced motion the pulse is removed and the curve stays a labelled still,
+ * carrying the same information.
+ */
+
+interface Props {
+  cycles?: number;
+  class?: string;
+}
+
+const { cycles = 6, class: className } = Astro.props;
+
+const W = 200; // one breath
+const TOP = 20;
+const BASE = 100;
+
+let d = `M0,${BASE}`;
+for (let i = 0; i < cycles; i++) {
+  const x = i * W;
+  // inhale — active, driven into the belly
+  d += ` C${x + 30},${BASE} ${x + 50},${TOP} ${x + 80},${TOP}`;
+  // exhale — released, never pushed, and it runs straight into the next inhale
+  d += ` C${x + 130},${TOP} ${x + 160},${BASE} ${x + W},${BASE}`;
+}
+
+const width = cycles * W;
+const duration = cycles * 4; // seconds — 4s per breath
+---
+
+<figure class:list={['breath', className]}>
+  <svg
+    class="breath__svg"
+    viewBox={`0 0 ${width} 120`}
+    preserveAspectRatio="none"
+    role="img"
+    aria-label="Diagramm des Atemrhythmus: kurze aktive Einatmung, längere passive Ausatmung, ohne Pause dazwischen."
+  >
+    <path class="breath__base" d={`M0,${BASE} H${width}`} />
+    <path class="breath__path" d={d} />
+    <path class="breath__pulse" d={d} pathLength="1000" style={`--dur:${duration}s`} />
+  </svg>
+
+  <figcaption class="breath__caption mono">
+    <span>Einatmen aktiv</span>
+    <span aria-hidden="true">·</span>
+    <span>Ausatmen passiv</span>
+    <span aria-hidden="true">·</span>
+    <span>keine Pause</span>
+  </figcaption>
+</figure>
+
+<style>
+  .breath {
+    margin: 0;
+  }
+
+  .breath__svg {
+    width: 100%;
+    height: clamp(68px, 10vw, 112px);
+    overflow: visible;
+  }
+
+  .breath__base {
+    stroke: var(--line);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .breath__path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.28;
+  }
+
+  .breath__pulse {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    /* Static fallback: the whole curve is drawn, no pulse. */
+    stroke-dasharray: none;
+  }
+
+  .breath__caption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    margin-top: var(--space-md);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .breath__pulse {
+      stroke-dasharray: 34 966;
+      animation: breath-travel var(--dur) linear infinite;
+    }
+
+    @keyframes breath-travel {
+      from {
+        stroke-dashoffset: 1000;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  }
+</style>

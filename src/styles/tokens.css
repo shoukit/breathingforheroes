@@ -1,0 +1,77 @@
+/**
+ * Design tokens. The only place raw colour, space and type values may appear.
+ * Contrast ratios in the comments are computed, not estimated.
+ */
+
+:root {
+  /* ---- Colour ------------------------------------------------------------
+   * Warm paper, warm ink, one cold accent. The warmth carries the human side
+   * of the practice, the cold accent the sober register of the copy.
+   */
+  --paper: #f5f2ee;
+  --paper-sunk: #eae5de;
+  --ink: #17120e;        /* 16.66:1 on paper · 14.84:1 on sunk */
+  --ink-soft: #574d45;   /*  7.37:1 on paper ·  6.57:1 on sunk */
+  --accent: #0e4a54;     /*  8.85:1 on paper · white on it 9.88:1 */
+  --accent-bright: #12626f; /* hover · white on it 6.99:1 */
+
+  --line: #d6cfc6;        /* decorative rules */
+  --line-strong: #7c7269; /* 4.21:1 on paper — form borders and real UI boundaries */
+  /* The thread crosses paper, sunk bands and photographs. A translucent ink keeps
+     it equally present on all three; a fixed tint disappeared on the sunk bands. */
+  --thread: rgb(23 18 14 / 0.18);
+
+  --focus: #0e4a54;
+
+  /* ---- Type -------------------------------------------------------------- */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --step-h1: clamp(2.75rem, 7vw, 5.25rem);
+  --step-h2: clamp(1.875rem, 3.5vw, 2.75rem);
+  --step-h3: 1.375rem;
+  --step-lead: clamp(1.125rem, 1.6vw, 1.375rem);
+  --step-body: 1.0625rem;
+  --step-small: 0.9375rem;
+  --step-mono: 0.8125rem;
+
+  --leading-tight: 1.02;
+  --leading-head: 1.12;
+  --leading-body: 1.7;
+
+  /* ---- Space -------------------------------------------------------------
+   * Section rhythm is deliberately generous. The subject is slowing down;
+   * a cramped page would contradict the copy.
+   */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --band-y: clamp(4.5rem, 10vw, 8rem);
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --maxw: 1180px;
+  --measure: 68ch;      /* longer lines tire the reader */
+  --pad: 1.25rem;
+  --rail-w: 1.5rem;     /* gap between the thread and the content */
+  --radius: 4px;        /* small and uniform — soft radii read as app, sharp as newspaper */
+  --tap: 44px;          /* minimum touch target */
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --breath-cycle: 4s;   /* real breathing tempo, not a design decision */
+  --t-fast: 140ms;
+  --t-base: 220ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 60rem) {
+  :root {
+    --pad: 2.5rem;
+    --rail-w: 8.5rem; /* wide enough for the mono time markers */
+    --step-body: 1.125rem;
+  }
+}

@@ -1,0 +1,401 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { contact, formEndpoint, person } from '../data/site';
+
+const title = 'Kontakt & Terminanfrage — Breathwork Bonn | Tom Geier';
+const description =
+  'Termin für eine Breathwork-Session in Bonn oder online anfragen. Telefonisch unter +49 176 34966935 oder über das Formular.';
+
+/** Until an endpoint is configured the form stays off and the real channels carry the page. */
+const formLive = formEndpoint.length > 0;
+
+const topics = [
+  'Einzelsession',
+  'Gruppensession',
+  'Eisbaden',
+  'Ich weiß es noch nicht',
+];
+
+const mailSubject = encodeURIComponent('Terminanfrage über die Website');
+---
+
+<Base title={title} description={description}>
+  <section class="band band--tight page-hero">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono" data-reveal>Kontakt</p>
+        <h1 data-reveal>Termin anfragen</h1>
+        <p class="lead" data-reveal>
+          Ein oder zwei Sätze reichen. Erzähl kurz, worum es dir geht — den Rest klären wir
+          miteinander.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane contact-grid">
+        <div data-reveal>
+          {
+            formLive ? (
+              <form class="form" method="post" action={formEndpoint}>
+                <p class="form__hp" aria-hidden="true">
+                  <label for="website">Bitte leer lassen</label>
+                  <input id="website" type="text" name="website" tabindex="-1" autocomplete="off" />
+                </p>
+
+                <div class="field">
+                  <label for="name">
+                    Name <span class="req">(Pflichtfeld)</span>
+                  </label>
+                  <input id="name" name="name" type="text" autocomplete="name" required />
+                </div>
+
+                <div class="field">
+                  <label for="email">
+                    E-Mail <span class="req">(Pflichtfeld)</span>
+                  </label>
+                  <input id="email" name="email" type="email" autocomplete="email" required />
+                </div>
+
+                <div class="field">
+                  <label for="phone">Telefon <span class="opt">(optional)</span></label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" />
+                </div>
+
+                <div class="field">
+                  <label for="topic">Worum geht es?</label>
+                  <select id="topic" name="topic">
+                    {topics.map((t) => (
+                      <option value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="message">
+                    Nachricht <span class="req">(Pflichtfeld)</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    required
+                    placeholder="Erzähl kurz, worum es dir geht. Wenn du Fragen hast, stell sie einfach hier."
+                  />
+                </div>
+
+                <div class="field field--check">
+                  <input id="privacy" name="privacy" type="checkbox" required />
+                  <label for="privacy">
+                    Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin
+                    damit einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage
+                    gespeichert werden. <span class="req">(Pflichtfeld)</span>
+                  </label>
+                </div>
+
+                <button class="btn btn--primary" type="submit">Anfrage senden</button>
+              </form>
+            ) : (
+              <div class="direct">
+                <h2>So erreichst du mich</h2>
+                <p>
+                  Schreib mir eine Mail oder ruf an. Beides landet direkt bei mir — du brauchst kein
+                  Formular auszufüllen.
+                </p>
+
+                <ul class="channels">
+                  <li>
+                    <a class="channel" href={`mailto:${contact.email}?subject=${mailSubject}`}>
+                      <Icon name="Mail" size={22} />
+                      <span>
+                        <strong>{contact.email}</strong>
+                        <span class="channel__hint">Mail schreiben</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="channel" href={`tel:${contact.phoneHref}`}>
+                      <Icon name="Phone" size={22} />
+                      <span>
+                        <strong>{contact.phone}</strong>
+                        <span class="channel__hint">Anrufen</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+
+                <p class="direct__note">
+                  Wenn du magst, schreib gleich dazu, ob dich eine Einzelsession, eine Gruppensession
+                  oder das Eisbaden interessiert — und ob dir vor Ort oder online lieber ist.
+                </p>
+              </div>
+            )
+          }
+        </div>
+
+        <aside class="aside" data-reveal>
+          {
+            /* Only shown alongside the form. In the fallback the channels above already
+               carry the phone number and address, and repeating them reads as filler. */
+            formLive && (
+              <div class="aside__block">
+                <h2 class="mono">Lieber direkt</h2>
+                <ul class="plain">
+                  <li>
+                    <Icon name="Phone" size={17} />
+                    <a href={`tel:${contact.phoneHref}`}>{contact.phone}</a>
+                  </li>
+                  <li>
+                    <Icon name="Mail" size={17} />
+                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                  </li>
+                </ul>
+              </div>
+            )
+          }
+
+          <div class="aside__block">
+            <h2 class="mono">Wo die Sessions stattfinden</h2>
+            <p class="with-icon">
+              <Icon name="MapPin" size={17} />
+              <address>
+                {contact.street}<br />
+                {contact.postalCode}&nbsp;{contact.city}
+              </address>
+            </p>
+            <p class="aside__hint">
+              Einzelsessions gehen auch online über Zoom — dann brauchst du nur einen Raum, in dem du
+              ungestört liegen kannst.
+            </p>
+          </div>
+
+          <div class="aside__block">
+            <h2 class="mono">Wer sich meldet</h2>
+            <p class="aside__hint">
+              {person.name} — {person.role}. Ich beantworte Anfragen selbst; es gibt kein Team
+              dazwischen.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero .mono {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-hero .lead {
+    margin-top: var(--space-lg);
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+
+  /* ---- Form ---- */
+
+  .form {
+    display: grid;
+    gap: var(--space-lg);
+    max-width: 34rem;
+  }
+
+  .form__hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .field label {
+    font-weight: 500;
+    font-size: var(--step-small);
+  }
+
+  .req,
+  .opt {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  select,
+  textarea {
+    min-height: var(--tap);
+    padding: 0.7rem 0.85rem;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    font-size: var(--step-body);
+    width: 100%;
+  }
+
+  textarea {
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    border-color: var(--accent);
+  }
+
+  .field--check {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-sm);
+  }
+
+  .field--check input {
+    width: 22px;
+    height: 22px;
+    margin-top: 0.15em;
+    accent-color: var(--accent);
+  }
+
+  .field--check label {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  .field--check a {
+    color: var(--accent);
+  }
+
+  /* ---- Direct contact fallback ---- */
+
+  .direct h2 {
+    font-size: var(--step-h3);
+    margin-bottom: var(--space-sm);
+  }
+
+  .channels {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-lg) 0 0;
+    display: grid;
+    gap: var(--space-md);
+    max-width: 30rem;
+  }
+
+  .channel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    min-height: var(--tap);
+    padding: var(--space-md);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: border-color var(--t-base) var(--ease), background-color var(--t-base) var(--ease);
+  }
+
+  .channel:hover {
+    border-color: var(--accent);
+    background: rgb(14 74 84 / 0.04);
+  }
+
+  .channel :global(svg) {
+    flex: none;
+    color: var(--accent);
+  }
+
+  .channel span {
+    display: grid;
+  }
+
+  .channel strong {
+    font-weight: 600;
+    word-break: break-word;
+  }
+
+  .channel__hint {
+    font-family: var(--font-mono);
+    font-size: var(--step-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .direct__note {
+    margin-top: var(--space-lg);
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    max-width: 46ch;
+  }
+
+  /* ---- Aside ---- */
+
+  .aside {
+    display: grid;
+    gap: var(--space-xl);
+    align-content: start;
+  }
+
+  .aside__block h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .plain {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .plain li,
+  .with-icon {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .aside :global(svg) {
+    flex: none;
+    color: var(--accent);
+    margin-top: 0.9em;
+  }
+
+  .aside a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    color: var(--accent);
+    text-underline-offset: 0.2em;
+  }
+
+  .aside address {
+    font-style: normal;
+    padding-block: 0.6em;
+  }
+
+  .aside__hint {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    margin-top: var(--space-sm);
+    max-width: 42ch;
+  }
+
+  @media (min-width: 60rem) {
+    .contact-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: var(--space-2xl);
+    }
+  }
+</style>

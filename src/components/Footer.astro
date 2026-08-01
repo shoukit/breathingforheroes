@@ -1,0 +1,168 @@
+---
+import { contact, legalNav, nav, person, site } from '../data/site';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="wordmark-lg">{site.name}</p>
+      <p class="site-footer__who">{person.name} — {person.role}</p>
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="mono">Kontakt</h2>
+      <ul class="contact-list">
+        <li>
+          <Icon name="Phone" size={17} />
+          <a href={`tel:${contact.phoneHref}`}>{contact.phone}</a>
+        </li>
+        <li>
+          <Icon name="Mail" size={17} />
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+        </li>
+        <li>
+          <Icon name="MapPin" size={17} />
+          <address>
+            {contact.street}<br />
+            {contact.postalCode}&nbsp;{contact.city}
+          </address>
+        </li>
+      </ul>
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="mono">Seiten</h2>
+      <ul class="plain-list">
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/kontakt/">Kontakt</a></li>
+      </ul>
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="mono">Rechtliches</h2>
+      <ul class="plain-list">
+        {legalNav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </div>
+
+    <p class="site-footer__note">
+      Breathwork ist keine Therapie und ersetzt keine ärztliche oder psychotherapeutische
+      Behandlung.
+    </p>
+
+    <p class="site-footer__copy">© {year} {person.name}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: var(--space-2xl) var(--space-xl);
+    margin-top: var(--band-y);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .wordmark-lg {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+    letter-spacing: -0.015em;
+  }
+
+  .site-footer__who {
+    color: color-mix(in srgb, var(--paper) 74%, var(--ink));
+    font-size: var(--step-small);
+    margin-top: var(--space-2xs);
+  }
+
+  .site-footer h2 {
+    font-family: var(--font-mono);
+    font-size: var(--step-mono);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--paper) 66%, var(--ink));
+    margin-bottom: var(--space-sm);
+  }
+
+  .contact-list,
+  .plain-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--step-small);
+  }
+
+  .contact-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .contact-list :global(svg) {
+    flex: none;
+    margin-top: 0.85em;
+    color: color-mix(in srgb, var(--paper) 60%, var(--ink));
+  }
+
+  .contact-list address {
+    font-style: normal;
+    padding-block: 0.55em;
+  }
+
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--t-fast) var(--ease);
+  }
+
+  .site-footer a:hover {
+    border-bottom-color: currentColor;
+  }
+
+  .site-footer a:focus-visible {
+    outline-color: var(--paper);
+  }
+
+  .site-footer__note,
+  .site-footer__copy {
+    font-size: var(--step-small);
+    color: color-mix(in srgb, var(--paper) 66%, var(--ink));
+  }
+
+  .site-footer__note {
+    max-width: 52ch;
+    padding-top: var(--space-lg);
+    border-top: 1px solid color-mix(in srgb, var(--paper) 20%, var(--ink));
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__inner {
+      grid-template-columns: 1.4fr 1.2fr 1fr 1fr;
+      column-gap: var(--space-lg);
+    }
+
+    .site-footer__brand {
+      grid-column: 1;
+    }
+
+    .site-footer__note {
+      grid-column: 1 / -1;
+    }
+
+    .site-footer__copy {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

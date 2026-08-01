@@ -1,0 +1,347 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import BreathCurve from '../components/BreathCurve.astro';
+import Cta from '../components/Cta.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { contraindications, person, primaryCta } from '../data/site';
+import { offers, timeline } from '../data/offers';
+import { breathworkFaq } from '../data/faq';
+import raum from '../assets/raum.jpg';
+
+const title = 'Breathwork in Bonn — Conscious Connected Breathing | Tom Geier';
+const description =
+  'Aktive Atemarbeit für Menschen, denen Stillsitzen nicht liegt. Einzelsession 85 €, Gruppensession 20 €. In Bonn oder online. Zertifizierter Instructor Tom Geier.';
+
+/** Only the first four steps on the home page — the full timeline lives on /breathwork/. */
+const teaser = timeline.slice(0, 4);
+---
+
+<Base title={title} description={description}>
+  <section class="hero">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono hero__eyebrow" data-reveal>Breathwork in Bonn — {person.name}</p>
+        <h1 data-reveal>Runterkommen, wenn Stillsitzen nicht funktioniert.</h1>
+        <p class="lead hero__lead" data-reveal>
+          Conscious Connected Breathing ist aktive Atemarbeit — 45 Minuten, in denen du etwas tust,
+          statt still zu sitzen und zu warten, dass die Gedanken aufhören. Einzeln oder in der
+          Gruppe, in Bonn oder online.
+        </p>
+
+        <div class="hero__actions" data-reveal>
+          <a class="btn btn--primary" href={primaryCta.href}>{primaryCta.label}</a>
+          <a class="link-arrow" href="/breathwork/">
+            Was in einer Session passiert
+            <Icon name="ArrowRight" size={17} />
+          </a>
+        </div>
+
+        <BreathCurve class="hero__curve" />
+      </div>
+    </div>
+
+    <div class="hero__figure">
+      <Image
+        src={raum}
+        alt="Ein ruhiger, schlichter Raum mit Holzdielen: eine Matte, eine gefaltete Wolldecke und ein Kissen, daneben ein Fenster mit Tageslicht."
+        widths={[640, 1024, 1600, 2000]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        quality={78}
+      />
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="problem">
+    <div class="shell">
+      <div class="lane prose" data-reveal>
+        <span class="mono">Das Problem</span>
+        <h2 id="problem">Der Kopf macht abends einfach weiter</h2>
+        <p>
+          Du funktionierst. Der Tag läuft, die Aufgaben werden erledigt, von außen sieht alles in
+          Ordnung aus. Aber abends kommst du nicht runter. Du liegst wach und arbeitest im Kopf
+          weiter. Am Wochenende brauchst du zwei Tage, um überhaupt anzukommen.
+        </p>
+        <p>
+          Meditation wäre die naheliegende Antwort. Nur: Stillsitzen und nichts tun ist genau das,
+          was in diesem Zustand am schwersten fällt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="loesung">
+    <div class="shell">
+      <div class="lane">
+        <div class="prose" data-reveal>
+          <span class="mono">Die Methode</span>
+          <h2 id="loesung">Atmen ist etwas, das du tun kannst</h2>
+          <p>
+            Beim Conscious Connected Breathing atmest du etwa 45 Minuten lang bewusst und ohne Pause
+            durch den geöffneten Mund. Das ist anstrengend, es beschäftigt dich — und genau deshalb
+            funktioniert es auch dann, wenn dein Kopf zu voll für Stille ist.
+          </p>
+          <p>
+            Was danach kommt, beschreiben Teilnehmende sehr unterschiedlich. Häufig genannt: eine
+            tiefe Ruhe, ein klarer Kopf, das Gefühl, den eigenen Körper wieder deutlich zu spüren.
+          </p>
+        </div>
+
+        <ul class="facts" data-reveal>
+          <li>
+            <Icon name="Check" size={19} />
+            <div>
+              <h3>Du musst nichts können</h3>
+              <p>Keine Vorerfahrung, keine Beweglichkeit, keine Meditationspraxis.</p>
+            </div>
+          </li>
+          <li>
+            <Icon name="Check" size={19} />
+            <div>
+              <h3>Du musst nicht reden</h3>
+              <p>Wenn du nichts erzählen willst, erzählst du nichts.</p>
+            </div>
+          </li>
+          <li>
+            <Icon name="Check" size={19} />
+            <div>
+              <h3>Du liegst die ganze Zeit</h3>
+              <p>Auf einer Matte, zugedeckt, mit Musik und Anleitung.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="ablauf">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Ablauf</span>
+          <h2 id="ablauf">So läuft eine Session ab</h2>
+        </div>
+
+        {
+          teaser.map((step) => (
+            <div class="railed" data-reveal>
+              <p class="railed__label mono">{step.time}</p>
+              <div class="railed__body">
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </div>
+            </div>
+          ))
+        }
+
+        <p class="ablauf__more" data-reveal>
+          <a class="link-arrow" href="/breathwork/">
+            Ausführlicher Ablauf, Minute für Minute
+            <Icon name="ArrowRight" size={17} />
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="angebot">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Angebot</span>
+          <h2 id="angebot">Einzeln oder in der Gruppe</h2>
+        </div>
+
+        <div class="offers">
+          {
+            offers.map((offer) => (
+              <article class="offer" data-reveal>
+                <h3>{offer.name}</h3>
+                <p class="offer__price">
+                  <span class="offer__amount">{offer.price}</span>
+                  <span class="mono">{offer.priceNote}</span>
+                </p>
+                <p class="offer__meta mono">
+                  {offer.duration} · {offer.place}
+                </p>
+                <p>{offer.summary}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="offers__more" data-reveal>
+          <a class="link-arrow" href="/sessions/">
+            Alle Angebote und Preise ansehen
+            <Icon name="ArrowRight" size={17} />
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <section class="band band--tight" aria-labelledby="person">
+    <div class="shell">
+      <div class="lane prose" data-reveal>
+        <span class="mono">Wer dich anleitet</span>
+        <h2 id="person">{person.name}</h2>
+        <p>
+          Ich bin zertifizierter Breathwork Instructor in Bonn. Angefangen hat es 2019 mit
+          Entspannungs- und Atemtechniken, unter anderem der Wim-Hof-Methode — damals aus einem sehr
+          persönlichen Grund: Ich war selbst erschöpft und unausgeglichen.
+        </p>
+        <p>
+          <a class="link-arrow" href="/ueber-tom/">
+            Mehr über meinen Weg
+            <Icon name="ArrowRight" size={17} />
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane" data-reveal>
+        <SafetyNote items={contraindications} />
+      </div>
+    </div>
+  </section>
+
+  <Faq items={breathworkFaq.slice(0, 4)} heading="Kurz vorab" eyebrow="Fragen" />
+
+  <Cta
+    heading="Lust, es auszuprobieren?"
+    body="Schreib mir kurz, worum es dir geht — ich melde mich und wir finden heraus, ob eine Einzel- oder eine Gruppensession besser passt."
+  />
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(3rem, 8vw, 6rem);
+  }
+
+  .hero__eyebrow {
+    margin-bottom: var(--space-md);
+  }
+
+  .hero__lead {
+    margin-top: var(--space-lg);
+    max-width: 54ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-xl);
+    margin-top: var(--space-xl);
+  }
+
+  .hero__curve {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .hero__figure {
+    margin-top: clamp(3rem, 7vw, 5rem);
+  }
+
+  .hero__figure :global(img) {
+    width: 100%;
+    height: clamp(260px, 46vw, 560px);
+    object-fit: cover;
+  }
+
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2xl) 0 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .facts li {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+
+  .facts :global(svg) {
+    flex: none;
+    color: var(--accent);
+    margin-top: 0.3em;
+  }
+
+  .facts h3 {
+    font-family: var(--font-body);
+    font-size: var(--step-body);
+    font-weight: 600;
+  }
+
+  .facts p {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    margin-top: var(--space-2xs);
+  }
+
+  .ablauf__more,
+  .offers__more {
+    margin-top: var(--space-xl);
+  }
+
+  .offers {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .offer {
+    padding-top: var(--space-md);
+    border-top: 2px solid var(--accent);
+    max-width: 46ch;
+  }
+
+  .offer h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .offer__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: var(--space-xs);
+  }
+
+  .offer__amount {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  }
+
+  .offer__meta {
+    margin-block: var(--space-sm) var(--space-md);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 52rem) {
+    .facts {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .offers {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-2xl);
+    }
+  }
+</style>

@@ -1,0 +1,318 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import Icon from '../components/Icon.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import { contraindications } from '../data/site';
+import { offers } from '../data/offers';
+import gruppe from '../assets/gruppensession.jpg';
+
+const title = 'Breathwork Sessions & Preise in Bonn — Einzeln, Gruppe, Online';
+const description =
+  'Einzelsession 85 € (1,5–2 Std.), Gruppensession 20 € pro Person (1,5 Std.). Vor Ort in Bonn oder online über Zoom. Zertifizierter Instructor Tom Geier.';
+
+const steps = [
+  {
+    title: 'Du schreibst mir',
+    body: 'Über das Formular, per Mail oder telefonisch. Ein Satz reicht.',
+  },
+  {
+    title: 'Wir klären kurz das Wesentliche',
+    body: 'Was du suchst, ob etwas gegen die Methode spricht, Einzel oder Gruppe.',
+  },
+  {
+    title: 'Wir machen einen Termin aus',
+    body: 'Vor Ort in Bonn oder online über Zoom.',
+  },
+];
+---
+
+<Base title={title} description={description}>
+  <section class="band band--tight page-hero">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono" data-reveal>Angebot</p>
+        <h1 data-reveal>Einzeln, in der Gruppe oder online</h1>
+        <p class="lead" data-reveal>
+          Drei Wege, dasselbe zu erleben. Der Unterschied liegt in der Aufmerksamkeit — und im Preis.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="angebote">
+    <h2 id="angebote" class="visually-hidden">Angebote und Preise</h2>
+    <div class="shell">
+      <div class="lane">
+        {
+          offers.map((offer) => (
+            <article class="offer" data-reveal>
+              <div class="offer__head">
+                <h3>{offer.name}</h3>
+                <p class="offer__price">
+                  <span class="offer__amount">{offer.price}</span>
+                  <span class="mono">{offer.priceNote}</span>
+                </p>
+                <p class="offer__meta mono">
+                  {offer.duration} · {offer.place}
+                </p>
+              </div>
+
+              <div class="offer__body">
+                <p>{offer.summary}</p>
+                <h4 class="mono">Enthalten</h4>
+                <ul class="ticks">
+                  {offer.includes.map((item) => (
+                    <li>
+                      <Icon name="Check" size={17} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p class="offer__suited">{offer.suitedFor}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane figure-wrap" data-reveal>
+        <Image
+          src={gruppe}
+          alt="Fünf Menschen liegen zugedeckt auf Matten auf einem Holzboden, Tageslicht fällt durch hohe Fenster."
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 60rem) 1000px, 100vw"
+          loading="lazy"
+          quality={78}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="online">
+    <div class="shell">
+      <div class="lane">
+        <div class="prose" data-reveal>
+          <span class="mono">Online</span>
+          <h2 id="online">Online über Zoom</h2>
+          <p>
+            Einzelsessions gehen auch online. Du brauchst einen Raum, in dem du 90 Minuten ungestört
+            liegen kannst, und Kopfhörer. Preis und Ablauf sind identisch.
+          </p>
+          <p>
+            Feste Online-Workshops sind derzeit keine geplant. Wenn du Interesse an einem Termin
+            hast, schreib mir — bei genug Nachfrage setze ich einen an.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="eisbaden-teaser">
+    <div class="shell">
+      <div class="lane prose" data-reveal>
+        <span class="mono">Saisonal</span>
+        <h2 id="eisbaden-teaser">Eisbaden</h2>
+        <p>Im Winter kommt das Eisbaden dazu — Atemtechnik und Kälte, draußen.</p>
+        <p>
+          <a class="link-arrow" href="/eisbaden/">
+            Mehr zum Eisbaden
+            <Icon name="ArrowRight" size={17} />
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="wie">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Ablauf</span>
+          <h2 id="wie">Wie du zu einem Termin kommst</h2>
+        </div>
+
+        <ol class="steps">
+          {
+            steps.map((step) => (
+              <li data-reveal>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="steps__note" data-reveal>Bezahlt wird nach der Session, nicht vorher.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane" data-reveal>
+        <SafetyNote items={contraindications} />
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    heading="Noch unsicher, was passt?"
+    body="Dann schreib mir einfach, wie es dir gerade geht. Wir finden gemeinsam heraus, welche Form Sinn ergibt."
+  />
+</Base>
+
+<style>
+  .page-hero .mono {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-hero .lead {
+    margin-top: var(--space-lg);
+  }
+
+  .offer {
+    display: grid;
+    gap: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 2px solid var(--accent);
+  }
+
+  .offer + .offer {
+    margin-top: var(--space-2xl);
+  }
+
+  .offer h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 400;
+  }
+
+  .offer__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: var(--space-xs);
+  }
+
+  .offer__amount {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.25rem);
+    line-height: 1;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 60;
+  }
+
+  .offer__meta {
+    margin-top: var(--space-sm);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .offer__body > * + * {
+    margin-top: var(--space-md);
+  }
+
+  .offer__body h4 {
+    font-family: var(--font-mono);
+    font-size: var(--step-mono);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: var(--space-lg);
+  }
+
+  .ticks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .ticks li {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+
+  .ticks :global(svg) {
+    flex: none;
+    color: var(--accent);
+    margin-top: 0.32em;
+  }
+
+  .offer__suited {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line);
+  }
+
+  .figure-wrap :global(img) {
+    width: 100%;
+    max-width: 1000px;
+    height: clamp(220px, 42vw, 500px);
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  /* Numbering is information here: the order is the actual sequence. */
+  .steps li {
+    counter-increment: step;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--step-mono);
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: var(--space-xs);
+  }
+
+  .steps h3 {
+    font-family: var(--font-body);
+    font-size: var(--step-body);
+    font-weight: 600;
+  }
+
+  .steps p {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    margin-top: var(--space-2xs);
+  }
+
+  .steps__note {
+    margin-top: var(--space-xl);
+    font-weight: 500;
+  }
+
+  @media (min-width: 52rem) {
+    .offer {
+      grid-template-columns: 22rem minmax(0, 1fr);
+      gap: var(--space-2xl);
+    }
+
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

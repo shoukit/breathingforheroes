@@ -1,0 +1,230 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import BreathCurve from '../components/BreathCurve.astro';
+import Cta from '../components/Cta.astro';
+import Faq from '../components/Faq.astro';
+import SafetyNote from '../components/SafetyNote.astro';
+import { contraindications } from '../data/site';
+import { sensations, timeline } from '../data/offers';
+import { breathworkFaq } from '../data/faq';
+import decke from '../assets/decke.jpg';
+
+const title = 'Was in einer Breathwork-Session passiert — Ablauf & Methode';
+const description =
+  'Conscious Connected Breathing Schritt für Schritt: Vorgespräch, 45 Minuten Atemrunde, Nachruhe. Inklusive Kontraindikationen und ehrlicher Erwartungshaltung.';
+
+const faqSchema = {
+  '@type': 'FAQPage',
+  mainEntity: breathworkFaq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<Base title={title} description={description} schema={[faqSchema]}>
+  <section class="band band--tight page-hero">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono" data-reveal>Methode</p>
+        <h1 data-reveal>Was in einer Breathwork-Session tatsächlich passiert</h1>
+        <p class="lead" data-reveal>
+          Keine Überraschungen. Hier steht der komplette Ablauf — inklusive der Dinge, die sich
+          ungewohnt anfühlen können.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="methode">
+    <div class="shell">
+      <div class="lane">
+        <div class="prose" data-reveal>
+          <h2 id="methode">Conscious Connected Breathing</h2>
+          <p>
+            Die Methode stammt aus dem Rebirthing und heißt übersetzt „bewusstes verbundenes Atmen".
+            Sie besteht aus einer einzigen Technik:
+          </p>
+          <p>
+            Du atmest durch den geöffneten Mund ein und aus. Die Einatmung geht aktiv und tief in
+            den Bauch, die Ausatmung lässt du einfach geschehen, ohne zu drücken. Zwischen Ein- und
+            Ausatmung machst du keine Pause — deshalb „verbunden".
+          </p>
+          <p>
+            Das klingt simpel, und das ist es auch. Anstrengend wird es durch die Dauer: etwa 45
+            Minuten am Stück.
+          </p>
+        </div>
+
+        <BreathCurve class="methode__curve" />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="ablauf">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Ablauf</span>
+          <h2 id="ablauf">Minute für Minute</h2>
+        </div>
+
+        {
+          timeline.map((step) => (
+            <div class="railed" data-reveal>
+              <p class="railed__label mono">{step.time}</p>
+              <div class="railed__body">
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane figure-wrap" data-reveal>
+        <Image
+          src={decke}
+          alt="Eine gefaltete Wolldecke und ein Leinenkissen auf einer Matte, Nachmittagslicht auf Holzdielen."
+          widths={[640, 1024, 1400]}
+          sizes="(min-width: 60rem) 900px, 100vw"
+          loading="lazy"
+          quality={78}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="ungewohnt">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Erwartung</span>
+          <h2 id="ungewohnt">Was sich ungewohnt anfühlen kann</h2>
+          <p class="lead">Damit du nicht überrascht wirst.</p>
+        </div>
+
+        <ul class="sensations">
+          {
+            sensations.map((s) => (
+              <li data-reveal>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="sensations__note prose" data-reveal>
+          Du kannst jederzeit aufhören. Wenn dir etwas zu viel wird, atmest du normal weiter — und
+          ich bin die ganze Zeit im Raum.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="abgrenzung">
+    <div class="shell">
+      <div class="lane prose" data-reveal>
+        <span class="mono">Grenzen</span>
+        <h2 id="abgrenzung">Was Breathwork nicht ist</h2>
+        <p>
+          Breathwork ist <strong>keine Therapie</strong>. Ich bin kein Arzt, kein Heilpraktiker und
+          kein Psychotherapeut, und eine Session ersetzt keine Behandlung. Wenn du gerade in Therapie
+          bist, sprich vorher mit deiner Therapeutin oder deinem Therapeuten.
+        </p>
+        <p>
+          Es ist auch <strong>kein Wundermittel</strong>. Du wirst nach 90 Minuten nicht als anderer
+          Mensch aufstehen. Was Breathwork sein kann: ein Werkzeug, das du regelmäßig nutzt, weil es
+          dir guttut.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="shell">
+      <div class="lane" data-reveal>
+        <SafetyNote
+          heading="Wann du nicht mitmachen solltest"
+          items={contraindications}
+          intro="Conscious Connected Breathing ist intensiv. Nicht geeignet ist es bei:"
+          outro="Diese Liste ist nicht vollständig. Wenn du regelmäßig Medikamente nimmst oder unsicher bist, frag im Zweifel deine Ärztin oder deinen Arzt — und sag mir vorher Bescheid."
+        />
+      </div>
+    </div>
+  </section>
+
+  <Faq items={breathworkFaq} />
+
+  <Cta
+    heading="Wenn das für dich passt"
+    body="Schreib mir, was du dir davon erhoffst. Wenn ich denke, dass Breathwork gerade nicht das Richtige für dich ist, sage ich das auch."
+  />
+</Base>
+
+<style>
+  .page-hero .mono {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-hero .lead {
+    margin-top: var(--space-lg);
+  }
+
+  .methode__curve {
+    margin-top: var(--space-2xl);
+  }
+
+  .figure-wrap :global(img) {
+    width: 100%;
+    max-width: 900px;
+    height: clamp(220px, 40vw, 460px);
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .sensations {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+    max-width: var(--measure);
+  }
+
+  .sensations li {
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .sensations h3 {
+    font-family: var(--font-body);
+    font-size: var(--step-body);
+    font-weight: 600;
+  }
+
+  .sensations p {
+    color: var(--ink-soft);
+    margin-top: var(--space-xs);
+  }
+
+  .sensations__note {
+    margin-top: var(--space-xl);
+    font-weight: 500;
+  }
+
+  @media (min-width: 52rem) {
+    .sensations {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg) var(--space-xl);
+      max-width: none;
+    }
+  }
+</style>

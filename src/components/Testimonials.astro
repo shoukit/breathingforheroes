@@ -1,0 +1,79 @@
+---
+/**
+ * Three real, attributable voices. There are no others — the list is not padded,
+ * and no rating, count or aggregate is displayed, because none exists.
+ */
+import { testimonials } from '../data/testimonials';
+---
+
+<section class="band" aria-labelledby="stimmen">
+  <div class="shell">
+    <div class="lane">
+      <div class="section-head" data-reveal>
+        <span class="mono">Stimmen</span>
+        <h2 id="stimmen">Was Teilnehmende sagen</h2>
+      </div>
+
+      <ul class="quotes">
+        {
+          testimonials.map((t) => (
+            <li data-reveal>
+              <figure>
+                <blockquote>
+                  <p>{t.quote}</p>
+                </blockquote>
+                <figcaption>{t.name}</figcaption>
+              </figure>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .quotes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  figure {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  blockquote {
+    margin: 0;
+    flex: 1;
+  }
+
+  blockquote p {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    line-height: 1.45;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 24;
+  }
+
+  figcaption {
+    margin-top: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: var(--step-mono);
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+
+  @media (min-width: 52rem) {
+    .quotes {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+  }
+</style>

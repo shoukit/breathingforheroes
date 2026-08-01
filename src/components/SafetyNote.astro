@@ -1,0 +1,72 @@
+---
+/**
+ * Contraindications. Deliberately styled as content, not as a greyed-out legal
+ * footnote — naming the limits openly is what makes the rest credible.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  heading?: string;
+  items: readonly string[];
+  intro?: string;
+  outro?: string;
+}
+
+const {
+  heading = 'Wann Breathwork nicht das Richtige ist',
+  items,
+  intro = 'Conscious Connected Breathing ist intensiv. Nicht geeignet ist es bei:',
+  outro = 'Breathwork ist keine Therapie und ersetzt keine ärztliche oder psychotherapeutische Behandlung. Wenn du unsicher bist, ob es für dich passt: Sprich mich vorher an. Das kostet nichts und ist mir lieber, als wenn du es einfach ausprobierst.',
+} = Astro.props;
+---
+
+<aside class="safety" aria-labelledby="safety-heading">
+  <p class="safety__icon"><Icon name="TriangleAlert" size={20} /></p>
+  <div>
+    <h2 id="safety-heading">{heading}</h2>
+    <p>{intro}</p>
+    <ul>
+      {items.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="safety__outro">{outro}</p>
+  </div>
+</aside>
+
+<style>
+  .safety {
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    max-width: var(--measure);
+  }
+
+  .safety__icon {
+    flex: none;
+    color: var(--accent);
+    line-height: 1;
+    margin-top: 0.15em;
+  }
+
+  .safety h2 {
+    font-size: var(--step-h3);
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+  }
+
+  .safety ul {
+    margin: var(--space-sm) 0;
+    padding-left: 1.2em;
+  }
+
+  .safety li {
+    margin-block: var(--space-2xs);
+  }
+
+  .safety__outro {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
+    margin-top: var(--space-sm);
+  }
+</style>

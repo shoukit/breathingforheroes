@@ -1,0 +1,158 @@
+---
+/**
+ * No hamburger. With four short links the menu fits on screen at every width, and
+ * a disclosure button would add a JavaScript dependency and a keyboard trap risk
+ * for no gain. The nav simply wraps on small screens.
+ */
+import { nav, primaryCta, site } from '../data/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path === href.replace(/\/$/, '');
+---
+
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="wordmark" href="/">
+      <span class="wordmark__name">{site.name}</span>
+      <span class="wordmark__place mono">Bonn</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Hauptnavigation">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="btn btn--primary site-header__cta" href={primaryCta.href}>{primaryCta.label}</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-sm) var(--space-lg);
+    padding-block: var(--space-sm);
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    min-height: var(--tap);
+    align-content: center;
+    flex-wrap: wrap;
+    text-decoration: none;
+  }
+
+  .wordmark__name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 24;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .wordmark__place {
+    color: var(--ink-soft);
+  }
+
+  /* Below this the name and the CTA cannot share a line with the place tag. */
+  @media (max-width: 26rem) {
+    .wordmark__place {
+      display: none;
+    }
+  }
+
+  @media (min-width: 30rem) {
+    .wordmark__name {
+      font-size: 1.125rem;
+    }
+  }
+
+  .site-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    border-top: 1px solid var(--line);
+    margin-top: calc(var(--space-xs) * -1);
+    padding-top: var(--space-2xs);
+  }
+
+  .site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-md);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-size: var(--step-small);
+    text-decoration: none;
+    color: var(--ink-soft);
+    border-bottom: 2px solid transparent;
+    transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+  }
+
+  .site-nav a:hover {
+    color: var(--ink);
+  }
+
+  .site-nav a[aria-current='page'] {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  .site-header__cta {
+    /* Slimmer than a body CTA — it must not outweigh the one on the page. */
+    min-height: 40px;
+    padding: 0.4rem 1rem;
+    font-size: var(--step-small);
+  }
+
+  @media (min-width: 60rem) {
+    .site-header__inner {
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-xl);
+    }
+
+    .site-nav {
+      grid-column: 2;
+      grid-row: 1;
+      border-top: 0;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .site-nav ul {
+      gap: var(--space-lg);
+    }
+
+    .site-header__cta {
+      min-height: var(--tap);
+      padding: 0.6rem 1.25rem;
+    }
+  }
+</style>

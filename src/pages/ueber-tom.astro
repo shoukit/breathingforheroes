@@ -1,0 +1,169 @@
+---
+/**
+ * Deliberately without a portrait. Generated imagery must never be passed off as
+ * Tom, and no real photograph exists yet — so the page is built typographically
+ * and stays honest. See docs/06-uebergabe.md.
+ */
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import { person } from '../data/site';
+
+const title = 'Tom Geier — Breathwork Instructor in Bonn';
+const description =
+  'Wie ich zum Breathwork gekommen bin und wie ich arbeite. Zertifizierter Instructor, Einzel- und Gruppensessions in Bonn und online.';
+
+const stance = [
+  {
+    title: 'Ich verspreche nichts',
+    body: 'Ich weiß nicht, was eine Session bei dir auslöst. Ich kann dir sagen, was passieren wird — nicht, was du dabei erleben wirst.',
+  },
+  {
+    title: 'Du entscheidest, wie viel du erzählst',
+    body: 'Manche kommen mit einem klaren Thema, andere wollen einfach nur atmen. Beides funktioniert.',
+  },
+  {
+    title: 'Ich bleibe die ganze Zeit dabei',
+    body: 'Während der Atemrunde bin ich im Raum, ansprechbar und aufmerksam. Du machst das nicht allein.',
+  },
+  {
+    title: 'Ich sage auch ab',
+    body: 'Wenn ich den Eindruck habe, dass Breathwork gerade nicht das Richtige für dich ist, sage ich das — auch wenn ich damit einen Termin verliere.',
+  },
+];
+
+const personSchema = {
+  '@type': 'Person',
+  name: person.name,
+  jobTitle: person.role,
+  url: 'https://breathing-for-heroes.de/ueber-tom/',
+  worksFor: { '@id': 'https://breathing-for-heroes.de/#practice' },
+};
+---
+
+<Base title={title} description={description} schema={[personSchema]}>
+  <section class="band band--tight page-hero">
+    <div class="shell">
+      <div class="lane">
+        <p class="mono" data-reveal>Wer dich anleitet</p>
+        <h1 data-reveal>{person.name}</h1>
+        <p class="lead" data-reveal>{person.role} in Bonn.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tight" aria-labelledby="weg">
+    <div class="shell">
+      <div class="lane">
+        <blockquote class="pull" data-reveal>
+          <p>Es gab einen Punkt, an dem ich gemerkt habe: So geht es nicht weiter.</p>
+        </blockquote>
+
+        <div class="prose" data-reveal>
+          <h2 id="weg">Wie ich dazu gekommen bin</h2>
+          <p>
+            Mehr Verantwortung im Job, immer schneller, immer mehr — und irgendwann war ich
+            erschöpft, unausgeglichen und innerlich leer. Von außen hat das niemand gesehen.
+          </p>
+          <p>
+            2019 habe ich angefangen, mich damit zu beschäftigen. Erst Meditation, dann verschiedene
+            Atemtechniken, unter anderem die Wim-Hof-Methode. Das hat schon viel verändert. Aber die
+            erste richtige Breathwork-Session war noch einmal etwas anderes. Ich hätte nicht gedacht,
+            dass allein durch Atmung so viel möglich ist.
+          </p>
+          <p>
+            Seitdem ist Breathwork fester Teil meines Lebens. Einmal pro Woche nehme ich mir die
+            Zeit, und jedes Mal ist es anders.
+          </p>
+          <p>
+            Irgendwann wollte ich das weitergeben. Heute bin ich zertifizierter Breathwork Instructor
+            und leite Menschen durch genau das, was mir damals geholfen hat.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="haltung">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Haltung</span>
+          <h2 id="haltung">Wie ich arbeite</h2>
+        </div>
+
+        <ul class="stance">
+          {
+            stance.map((item) => (
+              <li data-reveal>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    heading="Wenn du dich damit wohlfühlst"
+    body="Schreib mir. Wir klären in ein paar Sätzen, ob es passt."
+  />
+</Base>
+
+<style>
+  .page-hero .mono {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-hero .lead {
+    margin-top: var(--space-md);
+  }
+
+  .pull {
+    margin: 0 0 var(--space-2xl);
+    padding-left: var(--space-lg);
+    border-left: 2px solid var(--accent);
+    max-width: 26ch;
+  }
+
+  .pull p {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+    line-height: 1.24;
+    letter-spacing: -0.012em;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 60;
+  }
+
+  .stance {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .stance li {
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .stance h3 {
+    font-family: var(--font-body);
+    font-size: var(--step-body);
+    font-weight: 600;
+  }
+
+  .stance p {
+    color: var(--ink-soft);
+    margin-top: var(--space-xs);
+    font-size: var(--step-small);
+  }
+
+  @media (min-width: 52rem) {
+    .stance {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+    }
+  }
+</style>
