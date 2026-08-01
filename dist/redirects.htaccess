@@ -1,0 +1,17 @@
+# Redirects from the WordPress site. Generated from src/data/redirects.ts.
+# Apache/LiteSpeed hosts: merge into the .htaccess at the document root.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^home/?$ / [R=301,L]
+  RewriteRule ^uebermich/?$ /ueber-tom/ [R=301,L]
+  RewriteRule ^about/?$ /breathwork/ [R=301,L]
+  RewriteRule ^contact/?$ /kontakt/ [R=301,L]
+  RewriteRule ^home-2/?$ / [R=301,L]
+  RewriteRule ^about-2/?$ /breathwork/ [R=301,L]
+  RewriteRule ^contact-2/?$ /kontakt/ [R=301,L]
+  RewriteRule ^coaches/?$ /ueber-tom/ [R=301,L]
+  RewriteRule ^single-coach/?$ /ueber-tom/ [R=301,L]
+  RewriteRule ^clients/?$ / [R=301,L]
+  RewriteRule ^blog/?$ /breathwork/ [R=301,L]
+  RewriteRule ^blog-2/?$ /breathwork/ [R=301,L]
+</IfModule>

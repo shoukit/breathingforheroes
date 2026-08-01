@@ -1,7 +1,11 @@
 node_modules/
-dist/
 .astro/
 .DS_Store
 *.log
 .env
 .env.production
+
+# dist/ is deliberately NOT ignored — the built site is committed so it can be
+# deployed straight from the repository. Always run `npm run build` before
+# committing, or dist/ and src/ drift apart and the live site silently lags
+# behind the source.

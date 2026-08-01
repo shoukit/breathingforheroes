@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://breathing-for-heroes.de/sitemap-index.xml
