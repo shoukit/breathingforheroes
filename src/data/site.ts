@@ -22,8 +22,8 @@ export const contact = {
   /** E.164, for tel: links and structured data */
   phoneHref: '+4917634966935',
   email: 'hello@breathing-for-heroes.de',
-  street: 'Brahmsstr. 11',
-  postalCode: '53121',
+  street: 'Im Krausfeld 1',
+  postalCode: '53111',
   city: 'Bonn',
   country: 'DE',
   countryName: 'Deutschland',

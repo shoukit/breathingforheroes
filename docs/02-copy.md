@@ -526,8 +526,8 @@ Felder:
 
 **H2:** Wo die Sessions stattfinden
 
-Brahmsstr. 11
-53121 Bonn
+Im Krausfeld 1
+53111 Bonn
 
 Einzelsessions gehen auch online über Zoom — dann brauchst du nur einen Raum, in dem du ungestört
 liegen kannst.

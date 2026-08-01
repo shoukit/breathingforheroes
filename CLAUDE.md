@@ -57,7 +57,8 @@ site and are reproduced in `src/data/`.
 - Single session: **85 €**, 1.5–2 h, online via Zoom or on site.
 - Group session: **20 € per person**, 1.5 h.
 - Ice bathing: seasonal, winter only.
-- Address: Brahmsstr. 11, 53121 Bonn · Phone: +49 176 34966935 · hello@breathing-for-heroes.de
+- Address: Im Krausfeld 1, 53111 Bonn · Phone: +49 176 34966935 · hello@breathing-for-heroes.de
+  (The predecessor site's "Brahmsstr. 11, 53121 Bonn" is outdated — corrected by the client.)
 - Named testimonials: Helma Rombach, Ronja Ferri, Kai Schifferdecker.
 
 ## Content constraints — non-negotiable
