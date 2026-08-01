@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Cta from '../components/Cta.astro';
+import PageHero from '../components/PageHero.astro';
 import SafetyNote from '../components/SafetyNote.astro';
 import { iceContraindications } from '../data/site';
 import { iceSteps } from '../data/offers';
@@ -13,33 +14,13 @@ const description =
 ---
 
 <Base title={title} description={description}>
-  <section class="band band--tight page-hero">
-    <div class="shell">
-      <div class="lane">
-        <p class="mono" data-reveal>Saisonal — Winter</p>
-        <h1 data-reveal>Eisbaden in Bonn</h1>
-        <p class="lead" data-reveal>
-          Kälte, die man aushält, weil man weiß, wie man atmet. Ein Winterangebot.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--tight">
-    <div class="shell">
-      <div class="lane figure-wrap" data-reveal>
-        <Image
-          src={eis}
-          alt="Eine Person steht bis zur Hüfte in einem kalten, teilweise vereisten See; am Ufer Schnee, kahle Bäume und Nebel."
-          widths={[640, 1024, 1600]}
-          sizes="(min-width: 60rem) 1000px, 100vw"
-          loading="eager"
-          fetchpriority="high"
-          quality={78}
-        />
-      </div>
-    </div>
-  </section>
+  <PageHero
+    image={eis}
+    eyebrow="Saisonal — Winter"
+    title="Eisbaden in Bonn"
+    lead="Kälte, die man aushält, weil man weiß, wie man atmet. Ein Winterangebot."
+    focus="center 45%"
+  />
 
   <section class="band band--tight" aria-labelledby="worum">
     <div class="shell">

@@ -48,6 +48,17 @@
   --focus: #12293d;
 
   /* Scrim for type over photography. Verified against the images in use. */
+  /* Subpage headers are shallower than the home hero, so their text sits in the
+     thin part of the gradient — and their photographs are busier than the misty
+     home frame. Measured against the rendered pixels, the light scrim dropped to
+     2.84:1 there. This one is denser and near-flat. */
+  --scrim-strong: linear-gradient(
+    to bottom,
+    rgb(244 247 248 / 0.93) 0%,
+    rgb(244 247 248 / 0.89) 55%,
+    rgb(244 247 248 / 0.84) 100%
+  );
+
   --scrim: linear-gradient(
     to bottom,
     rgb(244 247 248 / 0.82) 0%,

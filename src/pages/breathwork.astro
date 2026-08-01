@@ -4,11 +4,13 @@ import Base from '../layouts/Base.astro';
 import BreathCurve from '../components/BreathCurve.astro';
 import Cta from '../components/Cta.astro';
 import Faq from '../components/Faq.astro';
+import PageHero from '../components/PageHero.astro';
 import SafetyNote from '../components/SafetyNote.astro';
 import { contraindications } from '../data/site';
 import { sensations, timeline } from '../data/offers';
 import { breathworkFaq } from '../data/faq';
 import decke from '../assets/decke.jpg';
+import matte from '../assets/matte.jpg';
 
 const title = 'Breathwork-Session: Ablauf & Methode | Bonn';
 const description =
@@ -25,18 +27,13 @@ const faqSchema = {
 ---
 
 <Base title={title} description={description} schema={[faqSchema]}>
-  <section class="band band--tight page-hero">
-    <div class="shell">
-      <div class="lane">
-        <p class="mono" data-reveal>Methode</p>
-        <h1 data-reveal>Was in einer Breathwork-Session tatsächlich passiert</h1>
-        <p class="lead" data-reveal>
-          Keine Überraschungen. Hier steht der komplette Ablauf — inklusive der Dinge, die sich
-          ungewohnt anfühlen können.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    image={matte}
+    eyebrow="Methode"
+    title="Was in einer Breathwork-Session tatsächlich passiert"
+    lead="Keine Überraschungen. Hier steht der komplette Ablauf — inklusive der Dinge, die sich ungewohnt anfühlen können."
+    focus="center 55%"
+  />
 
   <section class="band band--tight" aria-labelledby="methode">
     <div class="shell">

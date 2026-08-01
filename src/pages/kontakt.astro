@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
+import fenster from '../assets/fenster.jpg';
 import { contact, formEndpoint, person } from '../data/site';
 
 const title = 'Kontakt & Terminanfrage — Breathwork Bonn | Tom Geier';
@@ -51,17 +53,16 @@ const next = [
 ---
 
 <Base title={title} description={description}>
+  <PageHero
+    image={fenster}
+    eyebrow="Kontakt"
+    title="Termin anfragen"
+    lead="Ein oder zwei Sätze reichen. Erzähl kurz, worum es dir geht — den Rest klären wir miteinander."
+    focus="center 50%"
+  />
+
   <section class="band band--tight">
     <div class="shell">
-      <div class="lane">
-        <p class="mono" data-reveal>Kontakt</p>
-        <h1 data-reveal>Termin anfragen</h1>
-        <p class="lead contact-lead" data-reveal>
-          Ein oder zwei Sätze reichen. Erzähl kurz, worum es dir geht — den Rest klären wir
-          miteinander.
-        </p>
-      </div>
-
       <div class="lane contact-grid">
         <div data-reveal>
           {

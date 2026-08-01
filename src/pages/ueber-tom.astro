@@ -8,8 +8,10 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Cta from '../components/Cta.astro';
+import PageHero from '../components/PageHero.astro';
 import { person } from '../data/site';
 import tom from '../assets/tom-portrait.jpg';
+import fluss from '../assets/fluss.jpg';
 
 const title = 'Tom Geier — Breathwork Instructor in Bonn';
 const description =
@@ -44,15 +46,13 @@ const personSchema = {
 ---
 
 <Base title={title} description={description} schema={[personSchema]}>
-  <section class="band band--tight page-hero">
-    <div class="shell">
-      <div class="lane">
-        <p class="mono" data-reveal>Wer dich anleitet</p>
-        <h1 data-reveal>{person.name}</h1>
-        <p class="lead" data-reveal>{person.role} in Bonn.</p>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    image={fluss}
+    eyebrow="Wer dich anleitet"
+    title={person.name}
+    lead={`${person.role} in Bonn.`}
+    focus="center 55%"
+  />
 
   <section class="band band--tight" aria-labelledby="weg">
     <div class="shell">

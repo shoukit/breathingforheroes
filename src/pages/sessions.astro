@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Cta from '../components/Cta.astro';
 import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
 import SafetyNote from '../components/SafetyNote.astro';
 import Termine from '../components/Termine.astro';
 import { contraindications } from '../data/site';
@@ -30,17 +31,13 @@ const steps = [
 ---
 
 <Base title={title} description={description}>
-  <section class="band band--tight page-hero">
-    <div class="shell">
-      <div class="lane">
-        <p class="mono" data-reveal>Angebot</p>
-        <h1 data-reveal>Einzeln, in der Gruppe oder online</h1>
-        <p class="lead" data-reveal>
-          Drei Wege, dasselbe zu erleben. Der Unterschied liegt in der Aufmerksamkeit — und im Preis.
-        </p>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    image={gruppe}
+    eyebrow="Angebot"
+    title="Einzeln, in der Gruppe oder online"
+    lead="Drei Wege, dasselbe zu erleben. Der Unterschied liegt in der Aufmerksamkeit — und im Preis."
+    focus="center 38%"
+  />
 
   <section class="band band--tight" aria-labelledby="angebote">
     <h2 id="angebote" class="visually-hidden">Angebote und Preise</h2>
@@ -81,21 +78,6 @@ const steps = [
   </section>
 
   <Termine />
-
-  <section class="band band--tight">
-    <div class="shell">
-      <div class="lane figure-wrap" data-reveal>
-        <Image
-          src={gruppe}
-          alt="Fünf Menschen liegen zugedeckt auf Matten auf einem Holzboden, Tageslicht fällt durch hohe Fenster."
-          widths={[640, 1024, 1600]}
-          sizes="(min-width: 60rem) 1000px, 100vw"
-          loading="lazy"
-          quality={78}
-        />
-      </div>
-    </div>
-  </section>
 
   <section class="band band--sunk" aria-labelledby="online">
     <div class="shell">
