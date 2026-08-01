@@ -1,12 +1,15 @@
 ---
 /**
- * Deliberately without a portrait. Generated imagery must never be passed off as
- * Tom, and no real photograph exists yet — so the page is built typographically
- * and stays honest. See docs/06-uebergabe.md.
+ * The portrait is real photography supplied by the client — the one image on the
+ * site that shows an actual person. It is framed to head and shoulders on purpose:
+ * the full frame is a lotus-position meditation shot, and the home page argues that
+ * breathwork is what you do when sitting still does not work.
  */
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Cta from '../components/Cta.astro';
 import { person } from '../data/site';
+import tom from '../assets/tom-portrait.jpg';
 
 const title = 'Tom Geier — Breathwork Instructor in Bonn';
 const description =
@@ -54,9 +57,22 @@ const personSchema = {
   <section class="band band--tight" aria-labelledby="weg">
     <div class="shell">
       <div class="lane">
-        <blockquote class="pull" data-reveal>
-          <p>Es gab einen Punkt, an dem ich gemerkt habe: So geht es nicht weiter.</p>
-        </blockquote>
+        <div class="intro">
+          <figure class="portrait" data-reveal>
+            <Image
+              src={tom}
+              alt={`${person.name}, ${person.role} in Bonn`}
+              widths={[360, 560, 800]}
+              sizes="(min-width: 52rem) 360px, 100vw"
+              loading="eager"
+              quality={82}
+            />
+          </figure>
+
+          <blockquote class="pull" data-reveal>
+            <p>Es gab einen Punkt, an dem ich gemerkt habe: So geht es nicht weiter.</p>
+          </blockquote>
+        </div>
 
         <div class="prose" data-reveal>
           <h2 id="weg">Wie ich dazu gekommen bin</h2>
@@ -120,11 +136,38 @@ const personSchema = {
     margin-top: var(--space-md);
   }
 
+  .intro {
+    display: grid;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+    align-items: center;
+  }
+
+  .portrait {
+    margin: 0;
+  }
+
+  /* The crop is baked into tom-portrait.jpg rather than done with object-position:
+     the source frame is a full lotus-position shot, and CSS cover can only reframe
+     within the image, never zoom past it — the pose stayed in view. */
+  .portrait :global(img) {
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--radius-lg);
+  }
+
   .pull {
-    margin: 0 0 var(--space-2xl);
+    margin: 0;
     padding-left: var(--space-lg);
     border-left: 2px solid var(--accent);
-    max-width: 26ch;
+  }
+
+  @media (min-width: 52rem) {
+    .intro {
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: var(--space-2xl);
+    }
+
   }
 
   .pull p {
@@ -132,6 +175,10 @@ const personSchema = {
     font-size: clamp(1.5rem, 3.4vw, 2.25rem);
     line-height: 1.24;
     letter-spacing: -0.012em;
+    /* On the paragraph, not the blockquote: ch resolves against the element's own
+       font-size, and on the wrapper that is the inherited body size — which cut the
+       measure to about a third of what it looked like. */
+    max-width: 20ch;
   }
 
   .stance {

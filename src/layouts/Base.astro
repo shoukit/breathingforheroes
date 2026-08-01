@@ -93,7 +93,9 @@ const graph = [localBusiness, ...schema];
     <link rel="preload" href={sourceLatin} as="font" type="font/woff2" crossorigin />
 
     <meta name="theme-color" content="#f5f2ee" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {/* The mark alone — the full lockup is 8:3 and unreadable at 32px. */}
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <script

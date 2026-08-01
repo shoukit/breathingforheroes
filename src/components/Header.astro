@@ -4,7 +4,9 @@
  * a disclosure button would add a JavaScript dependency and a keyboard trap risk
  * for no gain. The nav simply wraps on small screens.
  */
+import { Image } from 'astro:assets';
 import { nav, primaryCta, site } from '../data/site';
+import logo from '../assets/logo.png';
 
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path === href || path === href.replace(/\/$/, '');
@@ -12,13 +14,8 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
 
 <header class="site-header">
   <div class="shell site-header__inner">
-    {/* Placeholder wordmark in the logo's colours. Drop the real file at
-        src/assets/logo.svg and swap this block for an <Image> — see docs/06-uebergabe.md. */}
-    <a class="wordmark" href="/" aria-label={`${site.name} — Startseite`}>
-      <span class="wordmark__name">
-        <span class="wordmark__a">Breathing</span>{' '}<span class="wordmark__b">for Heroes</span>
-      </span>
-      <span class="wordmark__sub">Breathing Techniques &amp; Ice Bathing</span>
+    <a class="wordmark" href="/" aria-label={`${site.name} — zur Startseite`}>
+      <Image src={logo} alt={site.name} widths={[320, 480, 640]} sizes="320px" loading="eager" />
     </a>
 
     <nav class="site-nav" aria-label="Hauptnavigation">
@@ -69,50 +66,29 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
   }
 
   .wordmark {
-    display: grid;
-    gap: 0.1rem;
-    align-content: center;
+    display: flex;
+    align-items: center;
     min-height: var(--tap);
     text-decoration: none;
   }
 
-  .wordmark__name {
-    font-family: var(--font-display);
-    font-size: 1.0625rem;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    white-space: nowrap;
-  }
-
-  .wordmark__a {
-    color: var(--logo-navy);
-  }
-
-  .wordmark__b {
-    color: var(--accent);
-  }
-
-  .wordmark__sub {
-    font-family: var(--font-display);
-    font-size: 0.5625rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    white-space: nowrap;
-  }
-
-  /* The strapline cannot share the row with the CTA on the narrowest phones. */
-  @media (max-width: 26rem) {
-    .wordmark__sub {
-      display: none;
-    }
+  /* The lockup is wide (8:3), so height alone decides whether the wordmark reads.
+     At 46px the strapline was illegible; these sizes keep the name readable
+     without the mark crowding the CTA on a phone. */
+  .wordmark :global(img) {
+    width: auto;
+    height: 40px;
   }
 
   @media (min-width: 30rem) {
-    .wordmark__name {
-      font-size: 1.25rem;
+    .wordmark :global(img) {
+      height: 52px;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .wordmark :global(img) {
+      height: 64px;
     }
   }
 
