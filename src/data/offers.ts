@@ -24,7 +24,7 @@ export const offers: readonly Offer[] = [
     priceNumeric: 85,
     priceNote: 'pro Session',
     duration: '1,5 – 2 Stunden',
-    place: 'in Bonn oder online über Zoom',
+    place: 'im Garten, bei dir zu Hause, in der Natur oder online',
     summary:
       'In der Einzelsession geht es nur um dich. Ich wähle die Musik vorher nach deiner Intention aus und gestalte die Anleitung so, dass sie zu deinem Thema passt. Vor- und Abschlussgespräch nehmen so viel Raum ein, wie du brauchst.',
     includes: [
@@ -32,10 +32,10 @@ export const offers: readonly Offer[] = [
       'Auf deine Intention abgestimmte Musik und Anleitung',
       '45 Minuten begleitete Atemrunde',
       'Nachruhe und Abschlussgespräch',
-      'Matte, Decke und Kissen vor Ort',
+      'Matte, Decke und Kissen bringe ich mit',
     ],
     suitedFor:
-      'Sinnvoll, wenn du ein konkretes Thema mitbringst oder lieber ohne andere Menschen im Raum anfängst.',
+      'Sinnvoll, wenn du ein konkretes Thema mitbringst oder lieber ohne andere Menschen dabei anfängst.',
   },
   {
     id: 'gruppensession',
@@ -44,15 +44,15 @@ export const offers: readonly Offer[] = [
     priceNumeric: 20,
     priceNote: 'pro Person',
     duration: '1,5 Stunden',
-    place: 'in Bonn',
+    place: 'im Garten oder in der Natur, nach Absprache',
     summary:
       'Jede Gruppensession steht unter einem gemeinsamen Thema — zum Beispiel Selbstannahme oder Vergebung. In der Einstimmung legt trotzdem jede und jeder eine eigene Intention fest, sodass die Session für dich persönlich bleibt.',
     includes: [
       'Einführung und gemeinsame Einstimmung',
       'Eigene Intention trotz gemeinsamem Thema',
       '45 Minuten begleitete Atemrunde',
-      'Nachruhe im Raum',
-      'Matte, Decke und Kissen vor Ort',
+      'Nachruhe in der Gruppe',
+      'Matte, Decke und Kissen bringe ich mit',
     ],
     suitedFor:
       'Sinnvoll, wenn du erst einmal ausprobieren willst, ob Breathwork etwas für dich ist.',

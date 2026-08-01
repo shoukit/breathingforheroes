@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import PageHero from '../components/PageHero.astro';
 import fenster from '../assets/fenster.jpg';
-import { contact, formEndpoint, person } from '../data/site';
+import { contact, formEndpoint, venues } from '../data/site';
 
 const title = 'Kontakt & Terminanfrage — Breathwork Bonn | Tom Geier';
 const description =
@@ -33,7 +33,7 @@ const mailBody = encodeURIComponent(
     'ich würde gern einen Termin ausmachen.',
     '',
     'Interesse an: (Einzelsession / Gruppensession / Eisbaden / weiß ich noch nicht)',
-    'Lieber: (vor Ort in Bonn / online über Zoom)',
+    'Lieber: (im Garten / bei mir zu Hause / in der Natur / online über Zoom)',
     'Worum es mir geht:',
     '',
     'Meine Fragen:',
@@ -185,27 +185,22 @@ const next = [
 
           <div class="aside__block">
             <h2 class="mono">Wo die Sessions stattfinden</h2>
-            {/* A div, not a p — <p> cannot contain <address>, so the parser closed it early. */}
-            <div class="with-icon">
-              <Icon name="MapPin" size={17} />
-              <address>
-                {contact.street}<br />
-                {contact.postalCode}&nbsp;{contact.city}
-              </address>
-            </div>
+            {/* No studio and no practice room — so this lists the actual options
+                rather than an address, which would promise a venue that does not exist. */}
+            <ul class="venues">
+              {venues.map((v) => (
+                <li>
+                  <strong>{v.name}</strong>
+                  <span>{v.detail}</span>
+                </li>
+              ))}
+            </ul>
             <p class="aside__hint">
-              Einzelsessions gehen auch online über Zoom — dann brauchst du nur einen Raum, in dem du
-              ungestört liegen kannst.
+              Wo genau, klären wir vorher zusammen — es soll ein Ort sein, an dem du dich
+              ungestört fühlst.
             </p>
           </div>
 
-          <div class="aside__block">
-            <h2 class="mono">Wer sich meldet</h2>
-            <p class="aside__hint">
-              {person.name} — {person.role}. Ich beantworte Anfragen selbst; es gibt kein Team
-              dazwischen.
-            </p>
-          </div>
         </aside>
       </div>
     </div>
@@ -441,6 +436,24 @@ const next = [
   .aside address {
     font-style: normal;
     padding-block: 0.6em;
+  }
+
+  .venues {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .venues li {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .venues span {
+    color: var(--ink-soft);
+    font-size: var(--step-small);
   }
 
   .aside__hint {

@@ -21,7 +21,7 @@ export const breathworkFaq: readonly FaqItem[] = [
   },
   {
     q: 'Was ziehe ich an?',
-    a: 'Bequeme Kleidung, in der du 90 Minuten liegen kannst. Socken sind sinnvoll, weil viele im Liegen kalte Füße bekommen. Decke und Matte sind da.',
+    a: 'Bequeme Kleidung, in der du 90 Minuten liegen kannst. Socken sind sinnvoll, weil viele im Liegen kalte Füße bekommen. Matte, Decke und Kissen bringe ich mit. Draußen lieber eine Schicht mehr.',
   },
   {
     q: 'Kann ich vorher essen?',
@@ -29,7 +29,7 @@ export const breathworkFaq: readonly FaqItem[] = [
   },
   {
     q: 'Funktioniert das online genauso?',
-    a: 'Ja. Du brauchst einen Raum, in dem du 90 Minuten ungestört liegen kannst, und Kopfhörer. Ich sehe und höre dich über Zoom und leite dich genauso an. Für die erste Session vor Ort spricht, dass ich im Raum bin — für online spricht, dass du danach in deiner eigenen Umgebung liegen bleiben kannst.',
+    a: 'Ja. Du brauchst einen Platz, an dem du 90 Minuten ungestört liegen kannst, und Kopfhörer. Ich sehe und höre dich über Zoom und leite dich genauso an. Für einen Termin vor Ort spricht, dass ich unmittelbar dabei bin — für online spricht, dass du danach einfach liegen bleiben kannst, ohne nach Hause zu fahren.',
   },
   {
     q: 'Wie oft ist sinnvoll?',

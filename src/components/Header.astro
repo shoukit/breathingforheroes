@@ -1,10 +1,15 @@
 ---
 /**
- * No hamburger. With four short links the menu fits on screen at every width, and
- * a disclosure button would add a JavaScript dependency and a keyboard trap risk
- * for no gain. The nav simply wraps on small screens.
+ * The disclosure is progressive enhancement, not a dependency: the nav ships
+ * visible and the script collapses it. Without JavaScript the menu is simply
+ * open — the behaviour this header had before — rather than unreachable, which
+ * is what a markup-only hamburger would produce if its script failed.
+ *
+ * Only below 60rem. Above that the whole header is one row and there is nothing
+ * to collapse.
  */
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 import { nav, primaryCta, site } from '../data/site';
 import logo from '../assets/logo.png';
 
@@ -18,7 +23,15 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
       <Image src={logo} alt={site.name} widths={[320, 480, 640]} sizes="320px" loading="eager" />
     </a>
 
-    <nav class="site-nav" aria-label="Hauptnavigation">
+    <button class="nav-toggle" type="button" aria-controls="hauptnavigation" aria-expanded="true" hidden>
+      <span class="nav-toggle__icon" aria-hidden="true">
+        <Icon name="Menu" size={22} class="nav-toggle__open" />
+        <Icon name="X" size={22} class="nav-toggle__close" />
+      </span>
+      <span class="visually-hidden nav-toggle__label">Menü öffnen</span>
+    </button>
+
+    <nav class="site-nav" id="hauptnavigation" aria-label="Hauptnavigation">
       <ul>
         {
           nav.map((item) => (
@@ -36,33 +49,134 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
   </div>
 </header>
 
+<script>
+  const BREAKPOINT = window.matchMedia('(min-width: 60rem)');
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.nav-toggle');
+  const label = toggle?.querySelector<HTMLElement>('.nav-toggle__label');
+  const navEl = header?.querySelector<HTMLElement>('.site-nav');
+
+  if (header && toggle && label && navEl) {
+    const setOpen = (open: boolean) => {
+      header.dataset.navOpen = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? 'Menü schließen' : 'Menü öffnen';
+    };
+
+    const applyMode = () => {
+      if (BREAKPOINT.matches) {
+        // Desktop: no disclosure at all, nav always visible.
+        toggle.hidden = true;
+        delete header.dataset.navOpen;
+        toggle.setAttribute('aria-expanded', 'true');
+      } else {
+        toggle.hidden = false;
+        if (header.dataset.navOpen === undefined) setOpen(false);
+      }
+    };
+
+    applyMode();
+    BREAKPOINT.addEventListener('change', applyMode);
+
+    toggle.addEventListener('click', () => {
+      const open = header.dataset.navOpen !== 'true';
+      setOpen(open);
+      if (open) navEl.querySelector('a')?.focus();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || header.dataset.navOpen !== 'true') return;
+      setOpen(false);
+      toggle.focus();
+    });
+
+    // A tap outside the header closes it — expected on a phone, and it avoids
+    // leaving the menu open behind whatever the visitor is trying to read.
+    document.addEventListener('click', (e) => {
+      if (header.dataset.navOpen !== 'true') return;
+      if (header.contains(e.target as Node)) return;
+      setOpen(false);
+    });
+  }
+</script>
+
 <style>
-  /* Static on small screens on purpose. Wordmark and nav need two rows there, and
-     a 166px sticky bar costs a fifth of a 844px viewport at every scroll position
-     — more than the persistent CTA is worth, given every section ends with one.
-     Desktop keeps it sticky, where the whole header is a single 69px row. */
+  /* Sticky at every width again. It was static on phones because the wrapped nav
+     made the bar 166px — a fifth of a 844px viewport at every scroll position.
+     The disclosure brings it back to 69px, so the persistent CTA is affordable. */
   .site-header {
-    position: static;
+    position: sticky;
+    top: 0;
     z-index: 50;
-    background: var(--paper);
+    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
   }
 
-  @media (min-width: 60rem) {
+  @supports not (backdrop-filter: blur(1px)) {
     .site-header {
-      position: sticky;
-      top: 0;
-      background: color-mix(in srgb, var(--paper) 88%, transparent);
-      backdrop-filter: blur(10px);
+      background: var(--paper);
     }
   }
 
   .site-header__inner {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
-    gap: var(--space-sm) var(--space-lg);
+    gap: var(--space-sm) var(--space-md);
     padding-block: var(--space-sm);
+  }
+
+  /* ---- Disclosure -------------------------------------------------------- */
+
+  .nav-toggle {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+  }
+
+  .nav-toggle:hover {
+    border-color: var(--accent);
+    background: rgb(38 102 110 / 0.06);
+  }
+
+  .nav-toggle[hidden] {
+    display: none;
+  }
+
+  /* Both glyphs share one cell so the button never changes size when it flips. */
+  .nav-toggle__icon {
+    display: grid;
+    place-items: center;
+  }
+
+  .nav-toggle__icon :global(svg) {
+    grid-area: 1 / 1;
+  }
+
+  /* :global() because the two glyphs are rendered by <Icon>, so they carry that
+     component's scope, not this one's. Without it neither rule matched and both
+     icons drew on top of each other. */
+  :global(.nav-toggle__close),
+  .site-header[data-nav-open='true'] :global(.nav-toggle__open) {
+    display: none;
+  }
+
+  .site-header[data-nav-open='true'] :global(.nav-toggle__close) {
+    display: block;
+  }
+
+  /* Collapsed only when the script has taken over and the menu is shut. */
+  .site-header[data-nav-open='false'] .site-nav {
+    display: none;
   }
 
   .wordmark {
@@ -96,7 +210,7 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
     grid-column: 1 / -1;
     grid-row: 2;
     border-top: 1px solid var(--line);
-    margin-top: calc(var(--space-xs) * -1);
+    margin-top: var(--space-xs);
     padding-top: var(--space-2xs);
   }
 
@@ -107,6 +221,26 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+
+  /* Opened by the button: a stacked list reads better than a wrapped row and
+     gives each link a full-width target. */
+  .site-header[data-nav-open='true'] .site-nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: var(--space-xs);
+  }
+
+  .site-header[data-nav-open='true'] .site-nav a {
+    width: 100%;
+    border-bottom: 1px solid var(--line);
+    border-left: 2px solid transparent;
+    padding-left: var(--space-sm);
+  }
+
+  .site-header[data-nav-open='true'] .site-nav a[aria-current='page'] {
+    border-bottom-color: var(--line);
+    border-left-color: var(--accent);
   }
 
   .site-nav a {
@@ -140,6 +274,10 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
     .site-header__inner {
       grid-template-columns: auto 1fr auto;
       gap: var(--space-xl);
+    }
+
+    .nav-toggle {
+      display: none;
     }
 
     .site-nav {

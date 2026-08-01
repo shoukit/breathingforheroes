@@ -54,7 +54,10 @@ site and are reproduced in `src/data/`.
   2019 (incl. the Wim Hof method); trained and certified since.
 - Method: *Conscious Connected Breathing* (rebirthing style) — ~45 min of active, connected
   mouth-breathing inside a session of roughly 1.5 hours.
-- Single session: **85 €**, 1.5–2 h, online via Zoom or on site.
+- Single session: **85 €**, 1.5–2 h, online via Zoom or in person.
+- **There is no studio and no practice room.** In-person sessions happen in Tom's garden, at the
+  client's home, or outdoors by arrangement. The address below is the business address for the
+  Impressum — never present it as a venue, and never show interior "practice room" imagery.
 - Group session: **20 € per person**, 1.5 h.
 - Ice bathing: seasonal, winter only.
 - Address: Im Krausfeld 1, 53111 Bonn · Phone: +49 176 34966935 · hello@breathing-for-heroes.de

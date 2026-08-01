@@ -16,6 +16,34 @@ export const person = {
   role: 'Zertifizierter Breathwork Instructor',
 } as const;
 
+/**
+ * Where sessions actually happen. There is no studio and no practice room —
+ * corrected by the client. The address below is the business address for the
+ * Impressum, not a venue, and must never be labelled as one.
+ */
+export const venues = [
+  {
+    name: 'Im Garten',
+    detail: 'Bei gutem Wetter draußen in Bonn.',
+    icon: 'Sun',
+  },
+  {
+    name: 'Bei dir zu Hause',
+    detail: 'Du brauchst nur Platz zum Liegen. Matte, Decke und Kissen bringe ich mit.',
+    icon: 'House',
+  },
+  {
+    name: 'In der Natur',
+    detail: 'Nach Absprache — wir suchen einen Ort, an dem du ungestört bist.',
+    icon: 'Trees',
+  },
+  {
+    name: 'Online über Zoom',
+    detail: 'Von überall. Du brauchst einen Raum, in dem du 90 Minuten ungestört liegen kannst.',
+    icon: 'MonitorPlay',
+  },
+] as const;
+
 export const contact = {
   /** Non-breaking spaces: a phone number split across two lines is unreadable. */
   phone: '+49 176 34966935',
