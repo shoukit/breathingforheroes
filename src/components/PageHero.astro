@@ -48,9 +48,11 @@ const { image, eyebrow, title, lead, focus = 'center 50%' } = Astro.props;
 
   <div class="shell page-hero__inner">
     <div class="lane">
-      <p class="eyebrow" data-reveal>{eyebrow}</p>
-      <h1 data-reveal>{title}</h1>
-      {lead && <p class="lead page-hero__lead" data-reveal>{lead}</p>}
+      <div class="page-hero__panel" data-reveal>
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        {lead && <p class="lead page-hero__lead">{lead}</p>}
+      </div>
     </div>
   </div>
 </section>
@@ -59,7 +61,7 @@ const { image, eyebrow, title, lead, focus = 'center 50%' } = Astro.props;
   .page-hero {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3rem, 7vw, 5.5rem);
+    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(2.5rem, 7vw, 5rem);
   }
 
   .page-hero__media {
@@ -88,17 +90,29 @@ const { image, eyebrow, title, lead, focus = 'center 50%' } = Astro.props;
     object-position: center 55%;
   }
 
-  /* Vertical below 60rem, where the text runs the full width; horizontal above it,
-     where the text sits in the left column and the right half can stay photograph. */
+  /* Only a light unifying veil now — it ties the photograph to the palette and
+     takes the edge off busy frames. The contrast work is done by the panel, which
+     means the rest of the image can stay almost untouched. */
   .page-hero__scrim {
     position: absolute;
     inset: 0;
-    background: var(--scrim-strong-narrow);
+    background: rgb(244 247 248 / 0.18);
   }
 
-  @media (min-width: 60rem) {
-    .page-hero__scrim {
-      background: var(--scrim-strong);
+  /* The text sits on its own surface instead of behind a veil over the whole
+     frame. Near-opaque, so contrast is a property of the panel rather than of
+     whatever happens to be in the photograph underneath. */
+  .page-hero__panel {
+    max-width: 44rem;
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    background: rgb(244 247 248 / 0.94);
+    border-radius: var(--radius-lg);
+  }
+
+  @supports (backdrop-filter: blur(1px)) {
+    .page-hero__panel {
+      background: rgb(244 247 248 / 0.86);
+      backdrop-filter: blur(14px) saturate(1.1);
     }
   }
 
@@ -114,14 +128,6 @@ const { image, eyebrow, title, lead, focus = 'center 50%' } = Astro.props;
   .page-hero__lead {
     margin-top: var(--space-md);
     color: var(--ink);
-  }
-
-  /* Bounded so the headline keeps a readable measure — and so the directional
-     scrim can clear on the right without leaving text over the bare photograph. */
-  @media (min-width: 60rem) {
-    .page-hero__inner .lane > * {
-      max-width: 40rem;
-    }
   }
 
   @media (min-width: 60rem) {
