@@ -25,6 +25,12 @@ interface Props {
 
 const { slides, interval = 7 } = Astro.props;
 const total = slides.length * interval;
+
+/**
+ * Slides after the first sit behind a frosted panel and are only ever seen
+ * mid-dissolve, so they carry less detail than the opening frame.
+ */
+const quality = (i: number) => (i === 0 ? 80 : 68);
 ---
 
 <div class="slides" style={`--total:${total}s; --slot:${interval}s`}>
@@ -38,9 +44,7 @@ const total = slides.length * interval;
           sizes="100vw"
           loading={i === 0 ? 'eager' : 'lazy'}
           fetchpriority={i === 0 ? 'high' : 'low'}
-          {/* Slides after the first sit behind a frosted panel and are only ever
-              seen mid-dissolve, so they carry less detail than the opening frame. */}
-          quality={i === 0 ? 80 : 68}
+          quality={quality(i)}
         />
       </div>
     ))

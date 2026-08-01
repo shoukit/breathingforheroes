@@ -75,6 +75,13 @@ Generator kopiert. Insbesondere:
   entspricht.
 - Der **Hosting-Anbieter** ist in den Server-Logdaten allgemein beschrieben. Manche Anbieter
   verlangen eine namentliche Nennung und einen Auftragsverarbeitungsvertrag.
+- **Neu und ausdrücklich vorzulegen:** der Abschnitt „Was die Forschung hergibt — und was nicht" auf
+  `/breathwork/`. Er nennt Studienergebnisse zu Stress, Ängstlichkeit und depressiven Symptomen.
+  Bewusst einschränkend gebaut — inklusive einer Studie, die gegen die Methode spricht —, damit es
+  eine Einordnung mit Quellen bleibt und keine Werbung mit Fachveröffentlichungen im Sinne von
+  § 11 Abs. 1 Nr. 1 HWG. Die Begründung steht in `08-breathwork-recherche.md`, Abschnitt 4. Falls
+  der Anwalt es anders sieht: Der Abschnitt lässt sich ersatzlos entfernen, ohne dass die Seite
+  auseinanderfällt — die Daten liegen isoliert in `src/data/research.ts`.
 
 Ich bin kein Anwalt. Einmal anwaltlich prüfen lassen, bevor es live geht.
 

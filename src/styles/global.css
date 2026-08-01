@@ -25,6 +25,12 @@ html {
   }
 }
 
+/* The header is sticky at every width (69px on a phone, 88px on desktop), so an
+   in-page link would otherwise drop its target underneath the bar. */
+:where([id]) {
+  scroll-margin-top: 6.5rem;
+}
+
 body {
   background: var(--paper);
   color: var(--ink);
@@ -377,6 +383,12 @@ main::before {
 .section-head .mono {
   display: block;
   margin-bottom: var(--space-sm);
+}
+
+/* Without this the lead butts straight against the h2 — headings carry no bottom
+   margin of their own. */
+.section-head .lead {
+  margin-top: var(--space-md);
 }
 
 /* ==========================================================================

@@ -4,17 +4,21 @@ import Base from '../layouts/Base.astro';
 import BreathCurve from '../components/BreathCurve.astro';
 import Cta from '../components/Cta.astro';
 import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import Ornament from '../components/Ornament.astro';
 import PageHero from '../components/PageHero.astro';
 import SafetyNote from '../components/SafetyNote.astro';
 import { contraindications } from '../data/site';
 import { sensations, timeline } from '../data/offers';
+import { physiology, physiologyOutro } from '../data/physiology';
+import { blockagesNote, researchConclusion, studies } from '../data/research';
 import { breathworkFaq } from '../data/faq';
 import decke from '../assets/decke.jpg';
 import matte from '../assets/matte.jpg';
 
 const title = 'Breathwork-Session: Ablauf & Methode | Bonn';
 const description =
-  'Conscious Connected Breathing Schritt für Schritt: Vorgespräch, 45 Minuten Atemrunde, Nachruhe. Inklusive Kontraindikationen und ehrlicher Erwartungshaltung.';
+  'Conscious Connected Breathing Schritt für Schritt: der Ablauf, was dabei im Körper passiert, was die Forschung hergibt — und wann du nicht mitmachen solltest.';
 
 const faqSchema = {
   '@type': 'FAQPage',
@@ -41,13 +45,13 @@ const faqSchema = {
         <div class="prose" data-reveal>
           <h2 id="methode">Conscious Connected Breathing</h2>
           <p>
-            Die Methode stammt aus dem Rebirthing und heißt übersetzt „bewusstes verbundenes Atmen".
+            Die Methode stammt aus dem Rebirthing und heißt übersetzt „bewusstes verbundenes Atmen“.
             Sie besteht aus einer einzigen Technik:
           </p>
           <p>
             Du atmest durch den geöffneten Mund ein und aus. Die Einatmung geht aktiv und tief in
             den Bauch, die Ausatmung lässt du einfach geschehen, ohne zu drücken. Zwischen Ein- und
-            Ausatmung machst du keine Pause — deshalb „verbunden".
+            Ausatmung machst du keine Pause — deshalb „verbunden“.
           </p>
           <p>
             Das klingt simpel, und das ist es auch. Anstrengend wird es durch die Dauer: etwa 45
@@ -60,10 +64,41 @@ const faqSchema = {
     </div>
   </section>
 
+  <section class="band band--sand" aria-labelledby="koerper">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <Ornament name="breath" size={34} class="section-mark" />
+          <span class="mono">Physiologie</span>
+          <h2 id="koerper">Was dabei im Körper passiert</h2>
+          <p class="lead">
+            Kein Geheimnis und keine Esoterik — eine Kette, die sich Schritt für Schritt nachlesen
+            lässt. Sie erklärt jede Empfindung, die weiter unten steht.
+          </p>
+        </div>
+
+        {
+          physiology.map((step, i) => (
+            <div class="railed" data-reveal>
+              <p class="railed__label mono">{String(i + 1).padStart(2, '0')}</p>
+              <div class="railed__body">
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </div>
+            </div>
+          ))
+        }
+
+        <p class="prose koerper__outro" data-reveal>{physiologyOutro}</p>
+      </div>
+    </div>
+  </section>
+
   <section class="band band--sunk" aria-labelledby="ablauf">
     <div class="shell">
       <div class="lane">
         <div class="section-head" data-reveal>
+          <Ornament name="wave" size={34} class="section-mark" />
           <span class="mono">Ablauf</span>
           <h2 id="ablauf">Minute für Minute</h2>
         </div>
@@ -102,6 +137,7 @@ const faqSchema = {
     <div class="shell">
       <div class="lane">
         <div class="section-head" data-reveal>
+          <Ornament name="drop" size={34} class="section-mark" />
           <span class="mono">Erwartung</span>
           <h2 id="ungewohnt">Was sich ungewohnt anfühlen kann</h2>
           <p class="lead">Damit du nicht überrascht wirst.</p>
@@ -119,14 +155,71 @@ const faqSchema = {
         </ul>
 
         <p class="sensations__note prose" data-reveal>
-          Du kannst jederzeit aufhören. Wenn dir etwas zu viel wird, atmest du normal weiter — und
-          ich bin die ganze Zeit dabei.
+          Die ersten beiden Punkte haben eine nüchterne Erklärung — sie steht oben unter <a
+            href="#koerper">Was dabei im Körper passiert</a
+          >. Und du kannst jederzeit aufhören: Wenn dir etwas zu viel wird, atmest du normal weiter,
+          und ich bin die ganze Zeit dabei.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="band band--sunk" aria-labelledby="abgrenzung">
+  <section class="band band--sage" aria-labelledby="blockaden">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <Ornament name="arc" size={34} class="section-mark" />
+          <span class="mono">{blockagesNote.eyebrow}</span>
+          <h2 id="blockaden">{blockagesNote.heading}</h2>
+        </div>
+
+        <div class="prose" data-reveal>
+          {blockagesNote.paragraphs.map((text) => <p>{text}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sunk" aria-labelledby="forschung">
+    <div class="shell">
+      <div class="lane">
+        <div class="section-head" data-reveal>
+          <span class="mono">Forschung</span>
+          <h2 id="forschung">Was die Forschung hergibt — und was nicht</h2>
+          <p class="lead">
+            Ich nenne dir lieber den Stand, als dir etwas zu versprechen. Drei Arbeiten, eine davon
+            spricht gegen mich.
+          </p>
+        </div>
+
+        <ul class="studies">
+          {
+            studies.map((study) => (
+              <li class="study" data-reveal>
+                <p class="study__scope mono">{study.scope}</p>
+                <h3>{study.finding}</h3>
+                <p>{study.body}</p>
+                <p class="study__limit">{study.limit}</p>
+                <a class="link-arrow study__source" href={study.source.url} rel="noopener">
+                  {/* Label and glyph share one flex item so the arrow trails the last
+                      word when the citation wraps, instead of being pushed to the far
+                      edge of the card. The no-break space keeps it from dropping onto
+                      a line of its own. */}
+                  <span>{study.source.label + '\u00a0'}<Icon name="ArrowUpRight" size={17} /></span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="prose studies__conclusion" data-reveal>
+          {researchConclusion.map((text) => <p>{text}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--sand" aria-labelledby="abgrenzung">
     <div class="shell">
       <div class="lane prose" data-reveal>
         <span class="mono">Grenzen</span>
@@ -177,6 +270,97 @@ const faqSchema = {
 
   .methode__curve {
     margin-top: var(--space-2xl);
+  }
+
+  .koerper__outro {
+    margin-top: var(--space-2xl);
+    font-weight: 500;
+  }
+
+  /* ---- Studien ----------------------------------------------------------- */
+
+  .studies {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  /* Cards rather than the rail: these are three parallel sources, not a sequence,
+     and the rail's numbering would imply an order they do not have. Paper on the
+     tinted band, no border — the same card idiom as the offers and testimonials.
+     A light-on-light border could never reach 3:1 anyway. */
+  .study {
+    padding: var(--space-lg);
+    background: var(--paper);
+    border-radius: var(--radius-lg);
+  }
+
+  .study__scope {
+    /* Reads before the heading, so the reader knows the size of the claim first. */
+    margin-bottom: var(--space-xs);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .study h3 {
+    margin-bottom: var(--space-sm);
+    font-size: var(--step-h3);
+    line-height: var(--leading-head);
+  }
+
+  .study p + p {
+    margin-top: var(--space-sm);
+  }
+
+  .study > p:not(.study__scope) {
+    color: var(--ink-soft);
+  }
+
+  /* The caveat is set apart deliberately: it must not read as small print that the
+     eye can skip, because on this page it is the point. */
+  .study__limit {
+    margin-top: var(--space-md);
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--line-strong);
+    font-size: var(--step-small);
+  }
+
+  .study__source {
+    margin-top: var(--space-xs);
+    font-size: var(--step-small);
+  }
+
+  /* The reset sets svg { display: block }, which pushed the arrow onto a line of
+     its own however much room was left. Inline, glued to the citation by the
+     no-break space, it stays with the last word. */
+  .study__source :global(svg) {
+    display: inline;
+    vertical-align: -0.15em;
+  }
+
+  .studies__conclusion {
+    margin-top: var(--space-xl);
+  }
+
+  @media (min-width: 52rem) {
+    .studies {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    .study {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Pins every source link to the bottom edge, so the three cards line up
+       regardless of how long each caveat runs. */
+    .study__source {
+      margin-top: auto;
+      padding-top: var(--space-md);
+    }
   }
 
   .figure-wrap :global(img) {

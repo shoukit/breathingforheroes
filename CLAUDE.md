@@ -70,6 +70,13 @@ site and are reproduced in `src/data/`.
 experience figures, star ratings, or "X% of clients" unless sourced from the list above. No stock
 testimonials, no logo bars for partners that do not exist, no fake scarcity ("only 2 spots left").
 
+The one exception is **published research, cited with a link** — the study figures in
+`src/data/research.ts`. They are not invented; every number is from the paper named beside it, and
+each carries its own caveat. Two rules hold them in place: the block must stay *limiting* rather
+than promotional (it leads with what the evidence does not support, and includes the placebo trial
+that found no advantage for this method), and no card may lose its `limit` field. Reasoning and
+sources: `docs/08-breathwork-recherche.md`.
+
 **No medical or healing claims.** The predecessor site carried claims that are both unevidenced and
 non-compliant with German advertising law for health services (HWG/UWG) — e.g. "die ultimative
 Medizin um deinen Körper zu heilen", "so effizient wie 10 Sitzungen bei einem Psychologen",

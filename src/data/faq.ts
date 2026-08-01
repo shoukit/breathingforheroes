@@ -35,4 +35,18 @@ export const breathworkFaq: readonly FaqItem[] = [
     q: 'Wie oft ist sinnvoll?',
     a: 'Es gibt keine Vorgabe. Ich selbst mache es einmal pro Woche. Manche kommen einmal und lassen es wirken, andere regelmäßig.',
   },
+  // Die drei tieferen Fragen stehen bewusst am Ende: Die Startseite zeigt nur die
+  // ersten vier Einträge, und dort gehören die praktischen Hemmschwellen hin.
+  {
+    q: 'Warum kribbeln dabei die Hände?',
+    a: 'Weil du mehr Kohlendioxid abatmest, als der Körper gerade produziert. Dadurch steigt kurzzeitig der pH-Wert im Blut, mehr Calcium bindet sich an Eiweiße, und der frei verfügbare Anteil sinkt. Freies Calcium hält die Reizschwelle der Nerven hoch — sinkt es, feuern die Nerven leichter. Das ist das Kribbeln, und das ist auch die Pfötchenstellung, wenn sich die Hände von selbst zusammenziehen. Beides bildet sich innerhalb von ein bis zwei Minuten zurück, sobald du wieder normal atmest.',
+  },
+  {
+    q: 'Löst Breathwork wirklich Blockaden?',
+    a: 'Viele Menschen erleben in der Atemrunde starke Gefühle — Weinen, Lachen, Zittern, plötzlich sehr nahe Erinnerungen. Beschrieben wird das meistens als „da hat sich etwas gelöst“. Dieses Bild stammt aus der Rebirthing-Tradition, aus der die Methode kommt, und es beschreibt gut, wie es sich anfühlt. Wissenschaftlich geklärt ist es nicht: Warum beim verbundenen Atmen Emotionen hochkommen, weiß niemand genau. Ich benutze das Bild, aber ich verkaufe es nicht als Tatsache.',
+  },
+  {
+    q: 'Ist Breathwork wissenschaftlich belegt?',
+    a: 'Teilweise. Eine Meta-Analyse von 2023 über 12 randomisierte Studien mit 785 Erwachsenen fand einen kleinen, aber signifikanten Effekt von Atemübungen auf selbst berichteten Stress. Für die intensive Variante, die ich anleite, sieht es dünner aus: In der bislang größten Placebo-Studie mit 200 Teilnehmenden war schnelles Atmen nicht wirksamer als ruhiges Atmen — beiden Gruppen ging es danach besser, aber gleich gut. Was ich anbiete, ist deshalb eine Erfahrung und kein Ergebnis.',
+  },
 ];
