@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import BreathCurve from '../components/BreathCurve.astro';
+import BreathField from '../components/BreathField.astro';
 import HeroSlideshow from '../components/HeroSlideshow.astro';
 import Cta from '../components/Cta.astro';
 import Faq from '../components/Faq.astro';
@@ -46,11 +47,12 @@ const heroSlides = [
     <div class="hero__media">
       <HeroSlideshow slides={heroSlides} interval={7} />
       <div class="hero__scrim"></div>
+      <BreathField />
     </div>
 
     <div class="shell hero__inner">
       <div class="lane">
-        <div class="hero__panel" data-reveal>
+        <div class="hero__panel" data-hero-intro>
           <p class="eyebrow">Dein Atem. Deine Stärke. Dein Weg.</p>
           <h1 class="display">Runterkommen, wenn Stillsitzen nicht funktioniert</h1>
           <p class="lead hero__lead">
@@ -60,7 +62,7 @@ const heroSlides = [
           </p>
 
           <div class="hero__actions">
-            <a class="btn btn--primary" href={primaryCta.href}>{primaryCta.label}</a>
+            <a class="btn btn--primary" href={primaryCta.href} data-magnetic>{primaryCta.label}</a>
             <a class="link-arrow" href="/breathwork/">
               Was in einer Session passiert
               <Icon name="ArrowRight" size={17} />

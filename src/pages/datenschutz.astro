@@ -19,14 +19,17 @@ const formLive = formEndpoint.length > 0;
     <div class="shell">
       <div class="lane">
         <p class="mono">Rechtliches</p>
-        <h1>Datenschutzerklärung</h1>
+        {/* Soft hyphen: this compound is wider than a phone at h1 size, and it
+            breaks cleanly here on every browser, not only where a German
+            hyphenation dictionary is installed. */}
+        <h1>Datenschutz&shy;erklärung</h1>
 
         <div class="legal prose">
           <h2>Kurzfassung</h2>
           <p>
-            Diese Website setzt <strong>keine Cookies</strong>, verwendet
-            <strong>keine Analyse- oder Tracking-Dienste</strong> und bindet
-            <strong>keine externen Schriftarten, Karten, Videos oder Social-Media-Plugins</strong>
+            Diese Website setzt <strong>keine Cookies</strong>, verwendet{' '}
+            <strong>keine Analyse- oder Tracking-Dienste</strong> und bindet{' '}
+            <strong>keine externen Schriftarten, Karten, Videos oder Social-Media-Plugins</strong>{' '}
             ein. Es gibt deshalb auch kein Cookie-Banner. Alle Dateien werden vom eigenen Server
             ausgeliefert.
           </p>

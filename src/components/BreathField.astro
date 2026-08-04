@@ -1,0 +1,196 @@
+---
+/**
+ * The signature 3D element: a quiet field of light motes drifting over the hero
+ * photography, breathing on the same four-second cycle the rest of the site uses
+ * as a motion token. It is atmosphere, not information — hence aria-hidden and
+ * pointer-events: none.
+ *
+ * It earns its weight only where it can: Three.js is dynamically imported, and
+ * only after the page has loaded and only when motion is welcome. Under
+ * prefers-reduced-motion, on a coarse pointer with a narrow screen, or with no
+ * WebGL, the canvas simply never initialises and the photograph stands alone.
+ * The loop pauses whenever the hero scrolls out of view or the tab is hidden, so
+ * it costs nothing once the visitor has moved on.
+ */
+---
+
+<canvas class="breath-field" aria-hidden="true" data-breath-field></canvas>
+
+<script>
+  import type * as THREE_NS from 'three';
+
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-breath-field]');
+  const host = canvas?.parentElement;
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = (navigator as any).connection?.saveData === true;
+  const memory = (navigator as any).deviceMemory;
+  const lowMemory = typeof memory === 'number' && memory <= 2;
+
+  // Skip the cost outright where it cannot pay off: reduced motion, a Save-Data
+  // request, a known low-memory device, a screen too small to hold the effect,
+  // or no host to measure against. Ordinary phones do get it, at a lighter count.
+  const wanted =
+    !!canvas && !!host && !reduce && !saveData && !lowMemory && window.innerWidth >= 360;
+
+  /** One soft round mote, drawn once into a texture the points all share. */
+  function makeSprite(THREE: typeof THREE_NS) {
+    const size = 64;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d')!;
+    const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    g.addColorStop(0, 'rgba(255,255,255,0.95)');
+    g.addColorStop(0.35, 'rgba(226,240,242,0.55)');
+    g.addColorStop(1, 'rgba(226,240,242,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  async function init() {
+    if (!canvas || !host) return;
+    const THREE = await import('three');
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setClearAlpha(0);
+    // Capped: past 1.5 the gain is invisible and the fill cost is not.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(46, 1, 0.1, 100);
+    camera.position.z = 8;
+
+    // Fewer motes on a phone: the effect is atmosphere, and a dense field would
+    // only muddy a small photograph and burn battery.
+    const COUNT = window.innerWidth < 640 ? 90 : 220;
+    const positions = new Float32Array(COUNT * 3);
+    const drift = new Float32Array(COUNT); // per-mote vertical speed
+    const spread = { x: 16, y: 11, z: 7 };
+
+    // Deterministic scatter — no Math.random needed, and it tiles evenly.
+    for (let i = 0; i < COUNT; i++) {
+      const a = i * 2.399963; // golden-angle increment
+      positions[i * 3] = (Math.cos(a * 1.7) * 0.5 + Math.sin(a * 0.9) * 0.5) * spread.x;
+      positions[i * 3 + 1] = ((i / COUNT) * 2 - 1) * spread.y;
+      positions[i * 3 + 2] = (Math.sin(a * 2.3) * 0.5) * spread.z - 2;
+      drift[i] = 0.12 + (i % 7) * 0.02;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 0.42,
+      map: makeSprite(THREE),
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      sizeAttenuation: true,
+      color: new THREE.Color('#dfeef0'),
+    });
+
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    const resize = () => {
+      const w = host.clientWidth || 1;
+      const h = host.clientHeight || 1;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    };
+    resize();
+    new ResizeObserver(resize).observe(host);
+
+    // Parallax: the field leans a few tenths of a degree toward the cursor. Fine
+    // pointer only — a touch drag is a scroll, not a look.
+    const target = { x: 0, y: 0 };
+    if (window.matchMedia('(pointer: fine)').matches) {
+      window.addEventListener('pointermove', (e) => {
+        target.x = (e.clientX / window.innerWidth - 0.5) * 0.6;
+        target.y = (e.clientY / window.innerHeight - 0.5) * 0.4;
+      });
+    }
+
+    const clock = new THREE.Clock();
+    const CYCLE = 4; // seconds, matching --breath-cycle
+    let raf = 0;
+    let running = false;
+
+    const frame = () => {
+      const t = clock.getElapsedTime();
+      const pos = geometry.attributes.position as THREE_NS.BufferAttribute;
+
+      // Slow upward drift, wrapping at the top edge.
+      for (let i = 0; i < COUNT; i++) {
+        let y = pos.getY(i) + drift[i] * 0.016;
+        if (y > spread.y) y = -spread.y;
+        pos.setY(i, y);
+      }
+      pos.needsUpdate = true;
+
+      // The breath: the whole field swells and eases back on the 4s cycle, and
+      // its presence rises and falls with it.
+      const breath = Math.sin((t / CYCLE) * Math.PI * 2);
+      points.scale.setScalar(1 + breath * 0.05);
+      material.opacity = 0.5 + breath * 0.12;
+
+      camera.position.x += (target.x - camera.position.x) * 0.03;
+      camera.position.y += (-target.y - camera.position.y) * 0.03;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(frame);
+    };
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      clock.start();
+      raf = requestAnimationFrame(frame);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+    };
+
+    // Only run while the hero is on screen and the tab is in front.
+    let onScreen = false;
+    const sync = () => (onScreen && !document.hidden ? start() : stop());
+
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      sync();
+    }, { threshold: 0 });
+    io.observe(canvas);
+    document.addEventListener('visibilitychange', sync);
+
+    // Fade the canvas in once, so it arrives rather than pops.
+    canvas.style.transition = 'opacity 1.2s ease';
+    requestAnimationFrame(() => (canvas.style.opacity = '1'));
+  }
+
+  if (wanted) {
+    const kick = () => ('requestIdleCallback' in window
+      ? (window as any).requestIdleCallback(init, { timeout: 2000 })
+      : setTimeout(init, 400));
+    // Never compete with the LCP: wait for load, then for idle.
+    if (document.readyState === 'complete') kick();
+    else window.addEventListener('load', kick, { once: true });
+  }
+</script>
+
+<style>
+  .breath-field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>

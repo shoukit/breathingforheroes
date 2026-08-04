@@ -25,9 +25,19 @@ commit. `npm run check` catches template and type errors that `build` tolerates.
 
 ## Architecture
 
-Astro 7, static output (no adapter, no SSR). Zero client-side framework — ship HTML and CSS, add
-JavaScript only where an interaction genuinely requires it, and always as a progressive
-enhancement over working markup.
+Astro 7, static output (no adapter, no SSR). No UI framework — ship HTML and CSS, add JavaScript
+only where an interaction genuinely requires it, and always as a progressive enhancement over
+working markup.
+
+The motion layer is deliberate and bounded. `src/scripts/motion.ts` is the one place scroll
+reveals, the hero intro, the magnetic CTA, and the header scroll-state live; it uses **GSAP +
+ScrollTrigger** and degrades to fully-visible, static content under `prefers-reduced-motion` or with
+JavaScript off (the `js` class on `<html>`, set inline in `<head>`, gates the reveal CSS so nothing
+is ever stranded invisible). The one **Three.js** element is `src/components/BreathField.astro` — a
+quiet breathing mote field over the hero, dynamically imported only after `load`+idle and only when
+motion is welcome, skipped under reduced motion / Save-Data / low-memory / very small screens, and
+paused when off-screen. Both libraries are code-split: neither is on the critical render path. Do
+not reach for either outside these two files without a reason as concrete as theirs.
 
 - `src/layouts/` — page shells. Every page goes through one layout, which owns `<head>`, the
   skip-link, header, footer, and JSON-LD injection. Meta tags are layout props, never hand-written

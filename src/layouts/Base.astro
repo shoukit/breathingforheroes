@@ -76,6 +76,11 @@ const graph = [localBusiness, ...schema];
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Set before first paint: the reveal CSS only hides content when this class
+        is present, so with JavaScript off nothing is ever stuck invisible. */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -112,26 +117,11 @@ const graph = [localBusiness, ...schema];
     </main>
     <Footer />
 
+    {/* The one motion system: reveals, hero intro, magnetic CTA. Bundled and
+        deferred; degrades to fully-visible content when off or under
+        reduced motion. See src/scripts/motion.ts. */}
     <script>
-      // Progressive enhancement only: without it every section is already visible.
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const targets = document.querySelectorAll('[data-reveal]');
-
-      if (reduce || !('IntersectionObserver' in window)) {
-        targets.forEach((el) => el.classList.add('is-visible'));
-      } else {
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              entry.target.classList.add('is-visible');
-              io.unobserve(entry.target);
-            });
-          },
-          { rootMargin: '0px 0px -10% 0px' }
-        );
-        targets.forEach((el) => io.observe(el));
-      }
+      import '../scripts/motion';
     </script>
   </body>
 </html>

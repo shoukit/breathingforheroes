@@ -71,6 +71,11 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   text-wrap: balance;
+  /* German runs long single words (Datenschutzerklärung, Kontraindikationen).
+     With lang=de on <html> these hyphenate cleanly at a narrow width instead of
+     overrunning the container. Only triggers when a word will not otherwise fit. */
+  overflow-wrap: break-word;
+  hyphens: auto;
   color: var(--ink);
 }
 
@@ -106,6 +111,10 @@ h3 {
   letter-spacing: 0.005em;
   text-transform: uppercase;
   text-wrap: balance;
+  /* Safety net: should the type scale ever outrun the panel, the word hyphenates
+     (lang=de is set on <html>) instead of spilling past the edge. */
+  overflow-wrap: break-word;
+  hyphens: auto;
   color: var(--ink);
 }
 
@@ -121,6 +130,10 @@ h3 {
 p,
 li {
   text-wrap: pretty;
+  /* Long unbreakable tokens (a full URL, an e-mail) wrap instead of forcing a
+     horizontal scrollbar — this is what pushed /datenschutz/ past the viewport
+     on a phone. */
+  overflow-wrap: break-word;
 }
 
 strong {
@@ -135,6 +148,8 @@ strong {
   text-transform: uppercase;
   color: var(--ink-soft);
   font-weight: 500;
+  /* Times and prices line up digit-for-digit down the timeline and offer cards. */
+  font-variant-numeric: tabular-nums;
 }
 
 .lead {
@@ -503,16 +518,13 @@ a {
    Motion — everything is opt-in
    ========================================================================== */
 
+/* Reveals are owned by GSAP (src/scripts/motion.ts). CSS only holds the initial
+   hidden state, and only when JavaScript is present (html.js) — so the content is
+   never stranded invisible if the script never runs. Under reduced motion this
+   whole block is inert and everything is visible from the start. */
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
+  html.js [data-reveal]:not(.is-visible) {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 500ms var(--ease), transform 500ms var(--ease);
-  }
-
-  [data-reveal].is-visible {
-    opacity: 1;
-    transform: none;
   }
 }
 

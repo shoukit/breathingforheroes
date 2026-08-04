@@ -111,6 +111,16 @@ const isCurrent = (href: string) => path === href || path === href.replace(/\/$/
     background: color-mix(in srgb, var(--paper) 90%, transparent);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
+    transition: background-color var(--t-base) var(--ease),
+      box-shadow var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+  }
+
+  /* Set once the hero is scrolled past (src/scripts/motion.ts): the bar reads as
+     more solid over content than it does over the hero photograph. */
+  .site-header.is-scrolled {
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    border-bottom-color: transparent;
+    box-shadow: 0 1px 0 rgb(18 41 61 / 0.04), 0 12px 28px -22px rgb(18 41 61 / 0.5);
   }
 
   @supports not (backdrop-filter: blur(1px)) {
